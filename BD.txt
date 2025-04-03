@@ -1,4 +1,4 @@
-create bd 'usuarios';
+create bd 'plf';
 
 CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL PRIMARY KEY AUTO INCREMENT,
