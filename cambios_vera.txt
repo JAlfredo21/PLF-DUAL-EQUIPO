@@ -1,0 +1,4 @@
+1er commit: En database están los php para hacer las consultas sql, un php por pagina html, elimine los otros php que cada uno era una acción diferente, es importante que 
+            cuando hagan modificaciones y/o pruebas, revisen el archivo de conexion.php ya que cada uno tiene una contraseña del root diferente y no va a jalar.
+            de igual manera, elimine lo php de los html, no será necesario, por lo tanto los archivos los puse a .html. También anexe la bd
+
