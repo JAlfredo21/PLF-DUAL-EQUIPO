@@ -1,1 +1,2 @@
-1. Creación de carpeta y archivo controller_login y js
+1. Creación de carpeta y archivo controller_login.php y .js, controller_recuperacion.php y .js, controller_emial.php
+2. Creación de funciones validar_token y restablecer_contraseña en controller_recuperacion del php.
