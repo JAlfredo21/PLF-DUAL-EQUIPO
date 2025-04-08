@@ -39,14 +39,15 @@
     //*Consulta SQL para registrar el usuario con encriptación de la contraseña y valida si el correo ya fue registrado
     function registrar_usuario($valores){
         include("../conexion.php");
+        $registro =date("Y-m-d H:i:s");
         $hashed_contraseña =password_hash($valores->contraseña, PASSWORD_BCRYPT);
-        $sql="INSERT INTO usuario(matricula,nombre,correo,contraseña) VALUES ('$valores->matricula',
-        '$valores->nombre','$valores->correo','$hashed_contraseña')";
+        $sql="INSERT INTO usuario(matricula,nombre,correo,contraseña,registro) VALUES ('$valores->matricula',
+        '$valores->nombre','$valores->correo','$hashed_contraseña','$registro')";
         //var_dump($sql);
-        $sql_val_mail="SELECT * FROM usuario WHERE correo= '$valores->correo'";
+        $sql_val_mail="SELECT * FROM usuario WHERE correo= '$valores->nombre'";    
         //$query_mail=mysqli_query($con,$sql_val_mail);
 
-        if(mysqli_query($con,$sql_val_mail)-> num_rows > 0){
+        if(mysqli_query($con,$sql_val_mail)-> num_rows > 0){      //* Validamos si el usuario ya existe, si existe no podrá ser registrado
             return false;
         }else{
             return mysqli_query($con,$sql);

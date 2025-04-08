@@ -11,7 +11,7 @@
  Target Server Version : 80404 (8.4.4)
  File Encoding         : 65001
 
- Date: 07/04/2025 19:36:04
+ Date: 07/04/2025 20:49:59
 */
 
 SET NAMES utf8mb4;
@@ -27,6 +27,9 @@ CREATE TABLE `usuarios`  (
   `correo` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
   `matricula` int NOT NULL,
   `contraseña` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
+  `token` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NULL,
+  `token_expiracion` datetime NULL DEFAULT NULL,
+  `registro` datetime NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_spanish_ci ROW_FORMAT = Dynamic;
 
