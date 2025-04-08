@@ -1,4 +1,3 @@
-<!--archivo php para conectarse a la base de datos -->
 <?php 
     $user="root"; /* usuario con el cual se accederá a la bd, en este caso se accedera con el usuario root */
     $pass="root"; /*contraseña del usuario */
