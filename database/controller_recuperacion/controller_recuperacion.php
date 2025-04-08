@@ -8,6 +8,11 @@ $respuesta_servidor = new stdClass();
 
 function validar_token($token){
     include('../conexion.php');
+
+    $sql = "SELECT * FROM usuarios WHERE token = '$token' AND token_expiracion > NOW()";
+    $query = mysqli_query($conexion, $sql);
+
+    
 }
 
 ?>
