@@ -16,11 +16,11 @@
     print(json_encode($respuesta_servidor)); //!si lo quitas truena la app!!! (Básicamente returna un json del resultado de la consulta y si lo quitas truena)
 
 
-    //* Consulta SQL para validar el correo y la contraseña en la BD
+    //* Consulta SQL para validar el usuario y la contraseña en la BD
     function iniciar_sesion($valores) {
         include("../conexion.php");
 
-        $sql="SELECT * FROM usuarios WHERE correo= '$valores->correo'";
+        $sql="SELECT * FROM usuarios WHERE correo= '$valores->nombre'";
         $query = mysqli_query($con,$sql);
         
         if ($query->num_rows > 0) {
