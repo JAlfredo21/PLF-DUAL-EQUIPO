@@ -20,7 +20,7 @@
     function iniciar_sesion($valores) {
         include("../conexion.php");
 
-        $sql="SELECT * FROM usuarios WHERE correo= '$valores->nombre'";
+        $sql="SELECT * FROM usuarios WHERE nombre= '$valores->nombre'";
         $query = mysqli_query($con,$sql);
         
         if ($query->num_rows > 0) {
@@ -41,10 +41,10 @@
         include("../conexion.php");
         $registro =date("Y-m-d H:i:s");
         $hashed_contraseña =password_hash($valores->contraseña, PASSWORD_BCRYPT);
-        $sql="INSERT INTO usuarios(matricula,nombre,correo,contraseña,registro) VALUES ('$valores->matricula',
-        '$valores->nombre','$valores->correo','$hashed_contraseña','$registro')";
+        $sql="INSERT INTO usuarios(nombre,correo,matricula,contraseña,registro) VALUES ('$valores->nombre',
+        '$valores->correo','$valores->matricula','$hashed_contraseña','$registro')";
         //var_dump($sql);
-        $sql_val_mail="SELECT * FROM usuarios WHERE nombre= '$valores->nombre'";    
+        $sql_val_mail="SELECT * FROM usuarios WHERE nombre= '$valores->nombre'OR matricula = '$valores->matricula'";    
         //$query_mail=mysqli_query($con,$sql_val_mail);
 
         if(mysqli_query($con,$sql_val_mail)-> num_rows > 0){      //* Validamos si el usuario ya existe, si existe no podrá ser registrado

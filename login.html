@@ -28,20 +28,20 @@
             </div>
             <div class="contenedor__login-register">
                 <!-- Formulario de Login -->
-                <form action="php/login_usuario.php" method="POST" class="formulario__login">
+                <form  method="POST" class="formulario__login">
                     <h2>Iniciar Sesión</h2>
-                    <input type="text" placeholder="Correo Electrónico" name="correo" required>
-                    <input type="password" placeholder="Contraseña" name="contrasena" required>
-                    <button>Entrar</button>
+                    <input type="text" placeholder="Usuario" id="nombre" name="inputInit" required>
+                    <input type="password" placeholder="Contraseña" id="contrasena" name="inputInit" required>
+                    <button type="button" class="btn" onclick="validar_ingreso()">Entrar</button>
                 </form>
 
                 <!-- Formulario de Registro -->
-                <form action="php/registro_usuario.php" method="POST" class="formulario__register">
+                <form  method="POST" class="formulario__register">
                     <h2>Regístrate</h2> 
-                    <input type="text" placeholder="Nombre" id="nombreReg" required>
-                    <input type="email" placeholder="Correo" id="correoReg" required>
-                    <input type="text" placeholder="Matrícula" id="matriculaReg" required>
-                    <input type="password" placeholder="Contraseña" id="contrasenaReg" required>
+                    <input type="text" placeholder="Nombre" id="nombreReg" name='reg-form' required>
+                    <input type="email" placeholder="Correo" id="correoReg" name='reg-form' required>
+                    <input type="text" placeholder="Matrícula" id="matriculaReg" name='reg-form' required>
+                    <input type="password" placeholder="Contraseña" id="contrasenaReg" name='reg-form' required>
                     <button type="button" class="btn" onclick="registrar_usuario()">Regístrarse</button>
                 </form>
             </div>
