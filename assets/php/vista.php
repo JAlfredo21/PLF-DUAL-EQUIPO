@@ -1,0 +1,94 @@
+<?php
+
+include 'conexion.php';
+
+session_start();
+if (!isset($_SESSION['usuario'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Actualizar productos si se envió el formulario
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    for ($i = 1; $i <= 9; $i++) {
+        $id = $_POST["id_$i"];
+        $nombre = $_POST["nombre_$i"];
+        $precio = $_POST["precio_$i"];
+
+        $stmt = $conexion->prepare("UPDATE producto SET nombre = ?, precio = ? WHERE id = ?");
+        $stmt->bind_param("sdi", $nombre, $precio, $id);
+        $stmt->execute();
+    }
+    echo "<p style='color: green;'>Productos actualizados correctamente.</p>";
+}
+
+$result = $conexion->query("SELECT * FROM producto ORDER BY id ASC LIMIT 9");
+
+if ($result && $result->num_rows > 0) {
+    $productos = $result->fetch_all(MYSQLI_ASSOC);
+} else {
+    echo "<p style='color:red;'>Error al obtener productos o no hay productos suficientes.</p>";
+    $productos = []; // Evita error en el foreach si está vacío
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista Principal</title>
+    <link rel="stylesheet" href="../css/vista.css">
+    <link rel="icon" type="image/png" href="../images/VMS.png" sizes="32x32">
+</head>
+<body>
+<header>
+        <div class="horizontal-menu">
+             <h2>Bienvenido | <?php echo $_SESSION['nombre_usuario']; ?></h2>
+          <ul class="horizontal-list">
+             <li><img src="../images/perfilicon.png" alt="Editar" class="list-icon">
+                <a href="actualizar_datos.php">Actualizar Datos</a></li>
+             <li><img src="../images/registericon.png" alt="Registrar" class="list-icon">
+                <a href="registro_cliente.php">Registrar Clientes</a></li>
+             <li><img src="../images/note.png" alt="Historial" class="list-icon">
+                <a href="historial_admin.php">Historial</a></li>
+             <li><img src="../images/grafica.png" alt="Grafica" class="list-icon">
+                <a href="graficas_admin.php">Graficas</a></li>
+             <li><img src="../images/cerrar.png" alt="CerrarS" class="list-icon">
+                <a href="cerrar_sesion.php">Cerrar Sesión</a></li>
+          </ul>
+        </div>
+    </header>
+
+
+    <form method="POST">
+        <table class="tabla-formulario">
+            <tr>
+                <th>Opción</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+            </tr>
+            <?php $i = 1; foreach ($productos as $producto): ?>
+                <tr>
+                    <td>Opción <?= $i ?>:</td>
+                    <td>
+                        <input type="hidden" name="id_<?= $i ?>" value="<?= $producto['id'] ?>">
+                        <input type="text" name="nombre_<?= $i ?>" value="<?= htmlspecialchars($producto['nombre']) ?>">
+                    </td>
+                    <td>Precio <?= $i ?>:</td>
+                    <td>
+                        <input type="number" step="0.01" name="precio_<?= $i ?>" value="<?= $producto['precio'] ?>">
+                    </td>
+                </tr>
+            <?php $i++; endforeach; ?>
+        </table>
+        <br>
+        <div class="boton-centro">
+            <button class="button_form" type="submit">Actualizar</button>
+        </div>
+    </form>
+    
+</body>
+</html>

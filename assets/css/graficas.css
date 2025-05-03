@@ -1,0 +1,105 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+body {
+    background-color: #e6ffe6;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.horizontal-menu {
+    position: relative;
+    background-color: #a4dde3;
+    height: 60px;
+}
+
+/* Botón alineado a la izquierda */
+.btn-volver {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: white;
+    color: #080101;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-volver:hover {
+    background-color: #167882;
+    color: white;
+}
+
+/* Título centrado */
+.titulo-centro {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    font-size: 24px;
+}
+
+.form_buscador {
+    background-color: #f0f0f0; /* Gris claro */
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px #cccccc;
+}
+
+.form_buscador label {
+    margin-right: 10px;
+    font-weight: bold;
+    color: #333333;
+}
+
+.form_buscador input[type="date"] {
+    padding: 6px 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    margin: 0 10px;
+}
+
+.btn_buscar {
+    background-color: #3498db; /* Azul */
+    color: #ffffff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn_buscar:hover {
+    background-color: #2980b9; /* Azul más oscuro */
+}
+
+.graficos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; 
+}
+
+canvas {
+    max-width: 300px;
+    max-height: 300px;
+    margin: auto;
+}
+
+
+
+
+
+

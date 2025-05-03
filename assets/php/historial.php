@@ -1,0 +1,69 @@
+<?php
+include 'conexion.php';
+session_start();
+
+if (!isset($_SESSION['usuario'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$usuario_id = $_SESSION['usuario'];
+
+// Consulta para obtener el historial del usuario logeado
+$sql = "SELECT v.fecha, p.nombre AS producto, p.id AS opcion, p.precio
+        FROM venta v
+        INNER JOIN producto p ON v.producto_id = p.id
+        INNER JOIN usuario u ON v.usuario_id = u.id
+        WHERE v.usuario_id = ?";
+
+$stmt = $conexion->prepare($sql);
+$stmt->bind_param("i", $usuario_id);
+$stmt->execute();
+$resultado = $stmt->get_result();
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial</title>
+    <link rel="stylesheet" href="../css/historial.css">
+    <link rel="icon" type="image/png" href="../images/VMS.png" sizes="32x32">
+</head>
+<body>
+
+    <header>
+        <div class="horizontal-menu">
+            <button class="btn-volver" onclick="window.location.href='vista_cliente.php'">Volver</button>
+            <h2 class="titulo-centro">Historial de Compras</h2>
+        </div>
+    </header>
+
+    <table border="1">
+        <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Producto</th>
+            <th>Opción (ID)</th>
+            <th>Precio</th>
+        </tr>
+        <?php while ($row = $resultado->fetch_assoc()) { ?>
+            <tr>
+                <?php
+                    $fecha_completa = $row['fecha'];
+                    $fecha = date('Y-m-d', strtotime($fecha_completa));
+                    $hora = date('H:i:s', strtotime($fecha_completa));
+                ?>
+                <td><?php echo $fecha; ?></td>
+                <td><?php echo $hora; ?></td>
+                <td><?php echo $row['producto']; ?></td>
+                <td><?php echo $row['opcion']; ?></td>
+                <td>$<?php echo number_format($row['precio'], 2); ?></td>
+            </tr>
+        <?php } ?>
+    </table>
+</body>
+</html>
+

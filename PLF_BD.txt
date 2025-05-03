@@ -1,0 +1,53 @@
+create DATABASE plf;
+use plf;
+
+CREATE TABLE producto (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  nombre varchar(5) NOT NULL,
+  precio int(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+INSERT INTO producto (nombre, precio) VALUES
+( 'Fanta', 17),
+( 'Takis', 19),
+( 'Power', 20),
+( 'Cocos', 20),
+( 'Maria', 20),
+( 'Coca', 22),
+( 'Pepsi', 21),
+( 'Pera', 13),
+( 'Agua', 10);
+
+CREATE TABLE usuario (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  nombre varchar(20) NOT NULL,
+  contrasenia varchar(100) NOT NULL,
+  correo varchar(100) NOT NULL,
+  es_admin tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO usuario (nombre, contrasenia, correo, es_admin) VALUES
+( 'Jesus', '2102', 'jalfredito02@gmail.com', 1),
+( 'Vera', '3476', 'vera@outlook.com', 0),
+( 'Eduardo', '2345', 'eduardo.alejandro003@gmail.com', 0),
+( 'Janny', '1234', 'janny@hotmail.com', 0);
+
+CREATE TABLE venta (
+  id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  fecha datetime NOT NULL DEFAULT current_timestamp(),
+  producto_id int(11) NOT NULL,
+  usuario_id int(11) NOT NULL,
+  FOREIGN KEY (producto_id) REFERENCES producto (id),
+  FOREIGN KEY (usuario_id) REFERENCES usuario (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO venta (fecha, producto_id, usuario_id) VALUES
+( '2025-04-30 15:50:07', 7, 2),
+( '2025-04-30 15:50:55', 1, 2),
+( '2025-04-30 15:55:48', 2, 3),
+( '2025-04-30 16:03:28', 4, 3),
+( '2025-04-30 16:03:28', 6, 4),
+( '2025-04-30 16:08:43', 5, 4),
+( '2025-05-01 08:52:59', 9, 4),
+( '2025-05-01 09:22:13', 3, 3);

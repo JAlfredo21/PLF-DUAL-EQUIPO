@@ -1,0 +1,70 @@
+<?php
+include 'conexion.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $correo = $_POST['correo'];
+
+    // Buscar usuario con ese correo
+    $sql = "SELECT * FROM usuario WHERE correo=?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("s", $correo);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    if ($resultado->num_rows == 1) {
+        // Restaurar nombre y contraseña a valores globales
+        $nuevoNombre = "admin";
+        $nuevaContrasenia = "12345";
+
+        $sqlUpdate = "UPDATE usuario SET nombre=?, contrasenia=? WHERE correo=?";
+        $stmtUpdate = $conexion->prepare($sqlUpdate);
+        $stmtUpdate->bind_param("sss", $nuevoNombre, $nuevaContrasenia, $correo);
+
+        if ($stmtUpdate->execute()) {
+            echo '
+                <script>
+                    alert("✅ Cuenta restaurada. Usuario: admin | Contraseña: 12345");
+                    window.location = "login.php";
+                </script>
+            ';
+        } else {
+            echo "❌ Error al actualizar: " . $conexion->error;
+        }
+    } else {
+        echo '
+            <script>
+                alert("❌ Correo no encontrado en la base de datos.");
+                window.location = "recuperar.php";
+            </script>
+        ';
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar</title>
+    <link rel="icon" type="image/png" href="../images/VMS.png" sizes="32x32">
+    <link rel="stylesheet" href="../css/recuperar.css">
+</head>
+<body>
+    <header>
+        <div class="horizontal-menu">
+            <button class="btn-volver" onclick="window.location.href='login.php'">Volver</button>
+            <h2 class="titulo-centro">Actualizar Contraseña</h2>
+        </div>
+    </header>
+
+    <form method="post">
+        <label>Correo registrado:</label><br>
+        <input type="email" name="correo" required><br><br>
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+</html>
+
+
+
