@@ -13,7 +13,7 @@ if ($clientejson->accion == 0) {
 }
 print(json_encode($respuesta_servidor));
 
-function verificacion_email($$valores) {
+function verificacion_email($valores) {
     include('../conexion.php');
 
     $sql = "SELECT * FROM usuario WHERE correo = '$valores->correo'";
@@ -41,7 +41,7 @@ function token_expirados($correo) {
     mysqli_query($con, $sql);
 }
 
-function enviar_email($correo, $token) {
+function enviar_email($destino, $token) {
     include('../email/Exception.php');
     include('../email/PHPMailer.php');
     include('../email/SMTP.php');
@@ -63,9 +63,34 @@ function enviar_email($correo, $token) {
         $email->addAddress($destino->correo, 'Destinatario');
         
         $reset_link = "http://$destino->dominio:$destino->puerto/PLF-DUAL-EQUIPO/recuperar.html?uguojlhnli=$token";
-
-    } catch (Exception $email) {
-        //throw $th;
+        
+        $email->isHTML(true);
+        $email->Subject = 'Recuperación de contraseña';
+        $email->Body = '<html>
+                            <body style="font-family: Arial, sans-serif; background-color: #f9fafc; color: #333; margin: 0; padding: 0;">
+                                <div style="max-width: 400px; margin: 40px auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); overflow: hidden; border: 1px solid #e0e0e0; text-align: center;">
+                                <div style="background-color: #0BAB1B; color: #ffffff; padding: 20px; font-size: 20px; font-weight: bold;">
+                                    Notificación de Proyecto DUAL
+                                </div>
+                                <div style="padding: 20px; text-align: center;">
+                                    <h2 style="color: #0BAB1B; margin-bottom: 15px; font-size: 22px;">Recuperación de contraseña</h2>
+                                    <p style="font-size: 16px; line-height: 1.6; color: #555;">Hemos recibido una solicitud para recuperar tu contraseña.</p>
+                                    <p style="font-size: 16px; line-height: 1.6; color: #555;">Haz clic en el botón de abajo para restablecer tu contraseña:</p>
+                                    <a href="'.$reset_link.'" style="display: inline-block; background-color: #0BAB1B; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-size: 16px; font-weight: bold; margin-top: 10px;">Restablecer Contraseña</a>
+                                    <p style="font-size: 14px; color: #999; margin-top: 20px;">Este mensaje es válido por 5 minutos.<br>Si no solicitaste este cambio, puedes ignorar este correo.</p>
+                                </div>
+                                <div style="background-color: #f9fafc; color: #888; text-align: center; padding: 15px; font-size: 12px; border-top: 1px solid #e0e0e0;">
+                                    &copy; '.$Year.' Proyecto DUAL. Todos los derechos reservados.
+                                </div>
+                                </div>
+                            </body>
+                        </html>';
+        $emial->AltBody = 'Recuperación de contraseña';
+        $email->send();
+        return true;
+        
+        } catch (Exception $e) {
+        return false;
     }
 }
 ?>
