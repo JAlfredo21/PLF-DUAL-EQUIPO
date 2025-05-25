@@ -44,7 +44,7 @@
         $sql="INSERT INTO usuario(nombre,correo,matricula,contrasenia,registro) VALUES ('$valores->nombre',
         '$valores->correo','$valores->matricula','$hashed_contraseña','$registro')";
         //var_dump($sql);
-        $sql_val_mail="SELECT * FROM usuarios WHERE nombre= '$valores->nombre'OR matricula = '$valores->matricula'";    
+        $sql_val_mail="SELECT * FROM usuario WHERE nombre= '$valores->nombre'OR matricula = '$valores->matricula'";    
         //$query_mail=mysqli_query($con,$sql_val_mail);
 
         if(mysqli_query($con,$sql_val_mail)-> num_rows > 0){      //* Validamos si el usuario ya existe, si existe no podrá ser registrado
