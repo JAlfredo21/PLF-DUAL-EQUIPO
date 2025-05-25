@@ -1,0 +1,165 @@
+<!-- <?php
+include 'conexion.php';
+session_start();
+
+if (!isset($_SESSION['usuario'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$id_usuario = $_SESSION['usuario'];
+$datos = [];
+
+// Verificar si el usuario es admin
+$sql_admin = "SELECT es_admin FROM usuario WHERE id = ?";
+$stmt_admin = $conexion->prepare($sql_admin);
+$stmt_admin->bind_param("i", $id_usuario);
+$stmt_admin->execute();
+$result_admin = $stmt_admin->get_result();
+$datos_admin = $result_admin->fetch_assoc();
+
+if ($datos_admin['es_admin'] != 1) {
+    // Si no es admin, redirige al cliente
+    header("Location: graficas.php");
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $fecha_inicio = $_POST['fecha_inicio'];
+    $fecha_fin = $_POST['fecha_fin'];
+
+    // Consulta ventas de todos los usuarios NO admin
+    $sql = "SELECT DATE(fecha) AS dia, COUNT(*) AS total
+            FROM venta v
+            INNER JOIN usuario u ON v.usuario_id = u.id
+            WHERE u.es_admin = 0 AND fecha BETWEEN ? AND ?
+            GROUP BY dia";
+
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("ss", $fecha_inicio, $fecha_fin);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    while ($row = $resultado->fetch_assoc()) {
+        $datos[] = $row;
+    }
+
+    // Guardar los resultados y filtros en la sesión
+    $_SESSION['datos_grafica_admin'] = $datos;
+    $_SESSION['filtros_grafica_admin'] = ['fecha_inicio' => $fecha_inicio, 'fecha_fin' => $fecha_fin];
+
+    // Redirigir a la misma página para evitar la repetición del POST al hacer refresh
+    header("Location: graficas_admin.php");
+    exit();
+}
+
+// Verificar si existen datos de la sesión para mostrarlos
+if (isset($_SESSION['datos_grafica_admin'])) {
+    $datos = $_SESSION['datos_grafica_admin'];
+    unset($_SESSION['datos_grafica_admin']); // Limpiar los datos después de usarlos
+}
+
+if (isset($_SESSION['filtros_grafica_admin'])) {
+    $filtros = $_SESSION['filtros_grafica_admin'];
+    unset($_SESSION['filtros_grafica_admin']); // Limpiar los filtros después de usarlos
+}
+ -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gráficas Generales de Compras</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="assets/css/graficas.css">
+    <link rel="icon" type="image/png" href="assets/images/VMS.png" sizes="32x32">
+</head>
+<body>
+
+    <header>
+        <div class="horizontal-menu">
+            <button class="btn-volver" onclick="window.location.href='vista.html'">Volver</button>
+            <h2 class="titulo-centro">Gráficas Generales por Rango de Fechas</h2>
+        </div>
+    </header>
+
+    <form method="post" class="form_buscador">
+        <label for="fecha_inicio">Fecha Inicio:</label>
+        <input type="date" name="fecha_inicio" required>
+        <label for="fecha_fin">Fecha Fin:</label>
+        <input type="date" name="fecha_fin" required>
+        <input type="submit" value="Buscar" class="btn_buscar">
+    </form>
+
+    <!-- <?php if (!empty($datos)) { ?>
+        <div class="graficos">
+            <canvas id="graficaBarras"></canvas>
+            <canvas id="graficaPastel"></canvas>
+            <canvas id="graficaLineal"></canvas>
+        </div>
+
+        <script>
+            const datosLabels = <?php echo json_encode(array_column($datos, 'dia')); ?>;
+            const datosTotales = <?php echo json_encode(array_column($datos, 'total')); ?>;
+
+            // Gráfico de barras
+            new Chart(document.getElementById('graficaBarras').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: datosLabels,
+                    datasets: [{
+                        label: 'Compras por día',
+                        data: datosTotales,
+                        backgroundColor: '#3498db'
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            stepSize: 1
+                        }
+                    }
+                }
+            });
+
+            //Pastel
+            new Chart(document.getElementById('graficaPastel').getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: datosLabels,
+                    datasets: [{
+                        data: datosTotales,
+                        backgroundColor: ['#3498db', '#2ecc71', '#e74c3c', '#f39c12', '#9b59b6', '#34495e'],
+                    }]
+                }
+            });
+
+            // Gráfico lineal
+            new Chart(document.getElementById('graficaLineal').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: datosLabels,
+                    datasets: [{
+                        label: 'Compras por día',
+                        data: datosTotales,
+                        borderColor: '#3498db',
+                        fill: false
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            stepSize: 1
+                        }
+                    }
+                }
+            });
+        </script>
+    <?php } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') { ?>
+        <p>No hay ventas en ese rango de fechas.</p>
+    <?php } ?> -->
+
+</body>
+</html>

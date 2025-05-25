@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 include 'conexion.php';
 session_start();
 
@@ -63,9 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     mysqli_close($conexion);
-}
-
-?>
+} -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -79,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <header>
         <div class="horizontal-menu">
-            <button class="btn-volver" onclick="window.location.href='<?php echo ($es_admin == 1) ? "vista.php" : "vista_cliente.php"; ?>'">Volver</button>
+            <button class="btn-volver">'">Volver</button>    <!-- onclick="window.location.href='<?php echo ($es_admin == 1) ? "vista.html" : "vista_cliente.html"; ? -->
             <h2 class="titulo-centro">Actualizar tus Datos</h2>
         </div>
     </header>

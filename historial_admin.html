@@ -1,0 +1,77 @@
+<!-- <?php
+include 'conexion.php';
+session_start();
+
+if (!isset($_SESSION['usuario'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$usuario_id = $_SESSION['usuario'];
+
+// Verifica si el usuario es administrador
+$sql_admin = "SELECT es_admin FROM usuario WHERE id = ?";
+$stmt_admin = $conexion->prepare($sql_admin);
+$stmt_admin->bind_param("i", $usuario_id);
+$stmt_admin->execute();
+$result_admin = $stmt_admin->get_result();
+$datos_admin = $result_admin->fetch_assoc();
+
+if ($datos_admin['es_admin'] != 1) {
+    // Si no es admin, redirige al historial normal
+    header("Location: historial.php");
+    exit();
+}
+
+// Consulta para obtener el historial de todos los usuarios que NO son admin
+$sql = "SELECT v.fecha, p.nombre AS producto, p.id AS opcion, p.precio, u.nombre AS usuario
+        FROM venta v
+        INNER JOIN producto p ON v.producto_id = p.id
+        INNER JOIN usuario u ON v.usuario_id = u.id
+        WHERE u.es_admin = 0";
+
+$resultado = $conexion->query($sql); -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial General</title>
+    <link rel="stylesheet" href="assets/css/historial.css">
+    <link rel="icon" type="image/png" href="assets/images/VMS.png" sizes="32x32">
+</head>
+<body>
+
+    <header>
+        <div class="horizontal-menu">
+            <button class="btn-volver" onclick="window.location.href='vista.php'">Volver</button>
+            <h2 class="titulo-centro">Historial General de Compras de los Usuarios</h2>
+        </div>
+    </header>
+
+    <table border="1">
+        <tr>
+            <th>Usuario</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Producto</th>
+            <th>Opción (ID)</th>
+            <th>Precio</th>
+        </tr>
+       <!--  <?php while ($row = $resultado->fetch_assoc()) { 
+            $fecha = date('Y-m-d', strtotime($row['fecha']));
+            $hora = date('H:i:s', strtotime($row['fecha']));
+        
+            <tr>
+                <td><?php echo htmlspecialchars($row['usuario']); ?></td>
+                <td><?php echo $fecha; ?></td>
+                <td><?php echo $hora; ?></td>
+                <td><?php echo htmlspecialchars($row['producto']); ?></td>
+                <td><?php echo $row['opcion']; ?></td>
+                <td>$<?php echo number_format($row['precio'], 2); ?></td>
+            </tr>
+        <?php } ?> -->
+    </table>
+
+</body>
+</html>
