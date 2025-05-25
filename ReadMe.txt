@@ -1,18 +1,1 @@
-create bd 'plf';
-
-CREATE TABLE `usuarios` (
-  `id` int(11) NOT NULL PRIMARY KEY AUTO INCREMENT,
-  `matricula` varchar(8) NOT NULL,
-  `nombre` varchar(20) NOT NULL,
-  `paterno` varchar(20) NOT NULL,
-  `correo` varchar(50) NOT NULL,
-  `edad` int(3) NOT NULL,
-  `telefono` varchar(10) NOT NULL,
-  `contrasena` varchar(15) NOT NULL,
-  `direccion` text NOT NULL,
-  `relacion` enum('soltero','casado','divorciado','viudo','separado') NOT NULL,
-  `estado` enum('tabasco','campeche','yucatan','chiapas') NOT NULL,
-  `nacionalidad` enum('mexicano','colombiano','argentino','paraguayo') NOT NULL,
-  `habilidad` varchar(20) NOT NULL,
-  `sexo` enum('M','F','','') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+para que funcione, es necesaria la bd plf.sql  y que en archivo de conexion.php, la variable de contraseña, se la cambies a la contraseña root de tu mysql
