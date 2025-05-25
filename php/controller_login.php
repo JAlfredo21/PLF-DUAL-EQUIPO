@@ -20,12 +20,12 @@
     function iniciar_sesion($valores) {
         include("conexion.php");
 
-        $sql="SELECT * FROM usuarios WHERE nombre= '$valores->nombre'";
+        $sql="SELECT * FROM usuario WHERE nombre= '$valores->nombre'";
         $query = mysqli_query($con,$sql);
         
         if ($query->num_rows > 0) {
             $user = mysqli_fetch_assoc($query);
-            if (password_verify($valores->contraseña, $user['contraseña'])) {
+            if (password_verify($valores->contraseña, $user['contrasenia'])) {
                 $result =[$user['matricula'] , $user['nombre'], $user['correo']];
                 return $result;
             }else{
@@ -41,7 +41,7 @@
         include("conexion.php");
         $registro =date("Y-m-d H:i:s");
         $hashed_contraseña =password_hash($valores->contraseña, PASSWORD_BCRYPT);
-        $sql="INSERT INTO usuarios(nombre,correo,matricula,contraseña,registro) VALUES ('$valores->nombre',
+        $sql="INSERT INTO usuario(nombre,correo,matricula,contrasenia,registro) VALUES ('$valores->nombre',
         '$valores->correo','$valores->matricula','$hashed_contraseña','$registro')";
         //var_dump($sql);
         $sql_val_mail="SELECT * FROM usuarios WHERE nombre= '$valores->nombre'OR matricula = '$valores->matricula'";    
