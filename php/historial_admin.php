@@ -10,7 +10,7 @@ $respuesta_servidor = new stdClass();
 //* Condicionales para gestionar cuando se hará cada función
 if ($clientejson->accion == 0) {
     $respuesta_servidor->resultado = consultar_datos($clientejson);
-} 
+}
 
 print(json_encode($respuesta_servidor)); //!si lo quitas truena la app!!! (Básicamente returna un json del resultado de la consulta y si lo quitas truena)
 
@@ -20,7 +20,18 @@ function consultar_datos($valores)
 {
     include("conexion.php");
 
-    $sql = "SELECT * FROM producto";
+    $sql = "select 
+            usuario.nombre,
+            date(venta.fecha) AS fecha,
+            time(venta.fecha) AS hora,
+            producto.nombre as producto,
+            producto.id,
+            producto.precio
+
+            from venta 
+            INNER JOIN usuario on usuario.id = venta.usuario_id
+            INNER JOIN producto on producto.id = venta.producto_id;          
+            ";
     $query = mysqli_query($con, $sql);
 
     $array = array();
@@ -29,5 +40,3 @@ function consultar_datos($valores)
     }
     return $array;
 }
-
-

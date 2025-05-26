@@ -34,31 +34,37 @@ $resultado = $conexion->query($sql); -->
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Historial General</title>
     <link rel="stylesheet" href="assets/css/historial.css">
     <link rel="icon" type="image/png" href="assets/images/VMS.png" sizes="32x32">
 </head>
+
 <body>
 
     <header>
         <div class="horizontal-menu">
-            <button class="btn-volver" onclick="window.location.href='vista.php'">Volver</button>
+            <button class="btn-volver" onclick="window.location.href='vista.html'">Volver</button>
             <h2 class="titulo-centro">Historial General de Compras de los Usuarios</h2>
         </div>
     </header>
 
     <table border="1">
-        <tr>
-            <th>Usuario</th>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Producto</th>
-            <th>Opción (ID)</th>
-            <th>Precio</th>
-        </tr>
-       <!--  <?php while ($row = $resultado->fetch_assoc()) { 
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Producto</th>
+                <th>Opción (ID)</th>
+                <th>Precio</th>
+            </tr>
+        </thead>
+        <tbody id="tbl-hist-info"></tbody>
+        <tfoot></tfoot>
+        <!--  <?php while ($row = $resultado->fetch_assoc()) { 
             $fecha = date('Y-m-d', strtotime($row['fecha']));
             $hora = date('H:i:s', strtotime($row['fecha']));
         
@@ -74,4 +80,5 @@ $resultado = $conexion->query($sql); -->
     </table>
 
 </body>
+
 </html>

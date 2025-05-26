@@ -33,6 +33,7 @@ if ($result && $result->num_rows > 0) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,34 +41,44 @@ if ($result && $result->num_rows > 0) {
     <link rel="stylesheet" href="assets/css/vista.css">
     <link rel="icon" type="image/png" href="assets/images/VMS.png" sizes="32x32">
 </head>
-<body>
-<header>
+
+<body onload="consultar_datos()">
+    <header>
         <div class="horizontal-menu">
-             <h2>Bienvenido | Angel (user sessionstorage)</h2>
-          <ul class="horizontal-list">
-             <li><img src="assets/images/perfilicon.png" alt="Editar" class="list-icon">
-                <a href="actualizar_datos.html">Actualizar Datos</a></li>
-             <li><img src="assets/images/registericon.png" alt="Registrar" class="list-icon">
-                <a href="registro_cliente.html">Registrar Clientes</a></li>
-             <li><img src="assets/images/note.png" alt="Historial" class="list-icon">
-                <a href="historial_admin.html">Historial</a></li>
-             <li><img src="assets/images/grafica.png" alt="Grafica" class="list-icon">
-                <a href="graficas_admin.html">Graficas</a></li>
-             <li><img src="assets/images/cerrar.png" alt="CerrarS" class="list-icon">
-                <a href="cerrar_sesion.html">Cerrar Sesión</a></li>
-          </ul>
+            <h2>Bienvenido | Angel (user sessionstorage)</h2>
+            <ul class="horizontal-list">
+                <li><img src="assets/images/perfilicon.png" alt="Editar" class="list-icon">
+                    <a href="actualizar_datos.html">Actualizar Datos</a>
+                </li>
+                <li><img src="assets/images/registericon.png" alt="Registrar" class="list-icon">
+                    <a href="registro_cliente.html">Registrar Clientes</a>
+                </li>
+                <li><img src="assets/images/note.png" alt="Historial" class="list-icon">
+                    <a href="historial_admin.html">Historial</a>
+                </li>
+                <li><img src="assets/images/grafica.png" alt="Grafica" class="list-icon">
+                    <a href="graficas_admin.html">Graficas</a>
+                </li>
+                <li><img src="assets/images/cerrar.png" alt="CerrarS" class="list-icon">
+                    <a href="cerrar_sesion.html">Cerrar Sesión</a>
+                </li>
+            </ul>
         </div>
     </header>
 
 
     <form method="POST">
         <table class="tabla-formulario">
-            <tr>
-                <th>Opción</th>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Opción</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody id="tbl-info"></tbody>
+            <tfoot></tfoot>
             <!-- <?php $i = 1; foreach ($productos as $producto): ?>
                 <tr>
                     <td>Opción <?= $i ?>:</td>
@@ -84,9 +95,11 @@ if ($result && $result->num_rows > 0) {
         </table>
         <br>
         <div class="boton-centro">
-            <button class="button_form" type="submit">Actualizar</button>
+            <button class="button_form" type="button" onclick="consultar_datos()">Actualizar</button>
         </div>
     </form>
-    
+
 </body>
+     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+     <script src="scripts/vista.js"></script>
 </html>
