@@ -61,11 +61,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label>Correo registrado:</label><br>
         <input type="email" name="correo" id="rpc-correo" placeholder="Ingrese un correo eléctronico" required><br><br>
         
-        <input type="submit" onclick="recuperar_contraseña()" id="inp-enviar">
-        <span id="mensaje-correo-success" style="display: none; color:rgba(17, 255, 0, 0.759);"></span>
+        <button type="button" onclick="recuperar_contraseña()" id="inp-enviar">Enviar</button>
+        <span id="mensaje-correo-success" style="display: none; color:rgba(22, 128, 15, 0.759);"></span>
         <span id="mensaje-correo-danger" style="display: none; color:rgba(255, 0, 0, 0.759);"></span>
     </form>
 </body>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="scripts/login.js"></script>
 </html>
 
 

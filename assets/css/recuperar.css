@@ -54,7 +54,7 @@ form {
 }
 
 input[type="email"],
-input[type="submit"] {
+button[type="button"] {
     width: 95%;
     padding: 8px;
     margin: 10px 0;
@@ -62,13 +62,13 @@ input[type="submit"] {
     border-radius: 3px;
 }
 
-input[type="submit"] {
+button[type="button"] {
     background-color: #28a745;
     color: #ffffff;
     border: none;
     cursor: pointer;
 }
 
-input[type="submit"]:hover {
+button[type="button"]:hover {
     background-color: #218838;
 }

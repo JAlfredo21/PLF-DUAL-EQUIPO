@@ -47,11 +47,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <form method="post">
         <h2>Iniciar Sesión</h2>
-        <label>Usuario:</label>
-        <input type="text" name="nombre" required><br>
+        <label>Correo:</label>
+        <input type="text" name="nombre" id="lg-correo" required><br>
         <label>Contraseña:</label>
         <input type="password" name="contrasenia" required><br>
-        <input type="submit" value="Iniciar sesión">
+        <button type="button" value="Iniciar sesión">Iniciar sesión</button>
     </form>
 
     <a href="recuperar.html">¿Se te olvidó tu contraseña?</a>

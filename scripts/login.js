@@ -1,25 +1,48 @@
 let respuesta = ""
-
-function server_email(model){
-    return new Promise ((resolve,reject)=>{
+function server_login(model) {
+    return new Promise((resolve, reject) => {
         $.ajax({
             type: "POST",
-            url: "database/controller_email/controller_email.php",
+            url: "php/controlador/login.php",
             data: {
-                trama:JSON.stringify(model)
+                trama: JSON.stringify(model)
             },
-            success: function(response){
+            success: function(response) {
                 respuesta = response
-                Swal.close()
                 try {
-                    resolve(JSON.parse(response))  
+                    resolve(JSON.parse(response))
+                    //console.log(response);
                 } catch (error) {
+                    //console.log(error);
                     reject(error)
                 }
             }
         })
     })
 }
+function server_email(model){
+    return new Promise ((resolve,reject)=>{
+        $.ajax({
+            type: "POST",
+            url: "php/controlador/email.php",
+            data: {
+                trama:JSON.stringify(model)
+            },
+            success: function(response){
+                respuesta = response
+                try {
+                    resolve(JSON.parse(response))  
+                    //console.log(response);
+                } catch (error) {
+                     //console.log(error);
+                    reject(error)
+                }
+            }
+        })
+    })
+}
+
+
 
 async function recuperar_contraseña() {
     let model ={
@@ -48,3 +71,4 @@ async function recuperar_contraseña() {
         emailmessages.style.display = 'none';
     }
 }
+
