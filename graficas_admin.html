@@ -67,6 +67,7 @@ if (isset($_SESSION['filtros_grafica_admin'])) {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Gráficas Generales de Compras</title>
@@ -74,6 +75,7 @@ if (isset($_SESSION['filtros_grafica_admin'])) {
     <link rel="stylesheet" href="assets/css/graficas.css">
     <link rel="icon" type="image/png" href="assets/images/VMS.png" sizes="32x32">
 </head>
+
 <body>
 
     <header>
@@ -85,12 +87,17 @@ if (isset($_SESSION['filtros_grafica_admin'])) {
 
     <form method="post" class="form_buscador">
         <label for="fecha_inicio">Fecha Inicio:</label>
-        <input type="date" name="fecha_inicio" required>
+        <input type="date" id="fecha-inicio" required>
         <label for="fecha_fin">Fecha Fin:</label>
-        <input type="date" name="fecha_fin" required>
-        <input type="submit" value="Buscar" class="btn_buscar">
+        <input type="date" id="fecha-fin" required>
+        <button type="button" value="Buscar" class="btn_buscar" onclick="consultar_datos()">Buscar</button>
     </form>
 
+    <div class="graficos">
+        <canvas id="grafica-barras"></canvas>
+        <canvas id="graficabpastel"></canvas>
+        <canvas id="grafica-lineal"></canvas>
+    </div>
     <!-- <?php if (!empty($datos)) { ?>
         <div class="graficos">
             <canvas id="graficaBarras"></canvas>
@@ -162,4 +169,8 @@ if (isset($_SESSION['filtros_grafica_admin'])) {
     <?php } ?> -->
 
 </body>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="scripts/graficas_admin.js"></script>
+
 </html>
