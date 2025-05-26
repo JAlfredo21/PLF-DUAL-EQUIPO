@@ -59,9 +59,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <form method="post">
         <label>Correo registrado:</label><br>
-        <input type="email" name="correo" required><br><br>
+        <input type="email" name="correo" id="rpc-correo" placeholder="Ingrese un correo eléctronico" required><br><br>
         
-        <input type="submit" value="Enviar">
+        <input type="submit" onclick="recuperar_contraseña()" id="inp-enviar">
+        <span id="mensaje-correo-success" style="display: none; color:rgba(17, 255, 0, 0.759);"></span>
+        <span id="mensaje-correo-danger" style="display: none; color:rgba(255, 0, 0, 0.759);"></span>
     </form>
 </body>
 </html>
