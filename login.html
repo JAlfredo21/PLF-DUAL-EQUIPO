@@ -45,12 +45,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="icon" type="image/png" href="assets/images/VMS.png" sizes="32x32">
 </head>
 <body>
-    <form method="post">
+    <form>
         <h2>Iniciar Sesión</h2>
         <label>Correo:</label>
-        <input type="text" name="nombre" id="lg-correo" required><br>
+        <input type="email" name="nombre" id="lg-correo" required><br>
         <label>Contraseña:</label>
-        <input type="password" name="contrasenia" required><br>
+        <input type="password" name="contrasenia" id="lg-contraseña" required><br>
+        <span id="mensaje-error" style="display: none; color:rgba(255, 0, 0, 0.759);"></span>
         <button type="button" value="Iniciar sesión">Iniciar sesión</button>
     </form>
 

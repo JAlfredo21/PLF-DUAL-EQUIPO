@@ -42,7 +42,25 @@ function server_email(model){
     })
 }
 
+async function iniciar_sesion() {
+    let model = {
+        accion: 0,
+        usuario: $("#login-usuario").val().trim(),
+        contrasenia: $("#login-contraseña").val().trim(),
+    }
 
+    let response = await server_login(model);
+
+    if (response.resultado === true) {
+        // Redirigir a la página de inicio
+        window.location.href = "index.html";
+    } else {
+        // Mostrar mensaje de error
+        let errorMessage = document.getElementById('mensaje-error');
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = 'Usuario o contraseña incorrectos. Por favor, inténtelo nuevamente.';
+    }
+}
 
 async function recuperar_contraseña() {
     let model ={
