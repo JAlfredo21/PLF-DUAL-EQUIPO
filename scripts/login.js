@@ -66,8 +66,8 @@ async function recuperar_contraseña() {
     let model ={
         accion : 0,
         correo : $("#rpc-correo").val().trim(),
-        dominio : window.location.hostname,
-        puerto : location.port
+        // dominio : window.location.hostname,
+        // puerto : location.port
     }
     
     let response = await server_email(model);

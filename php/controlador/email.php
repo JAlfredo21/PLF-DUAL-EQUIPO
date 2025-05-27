@@ -26,7 +26,7 @@ function verificacion_email($valores) {
         $hash = password_hash($contraseña, PASSWORD_DEFAULT);
         $sql_contraseña = "UPDATE usuario SET contrasenia = '$hash' WHERE correo = '$valores->correo'";
         if (mysqli_query($con, $sql_contraseña)) {
-            return enviar_email($valores->correo, $contraseña, $valores->dominio, $valores->puerto);
+            return enviar_email($valores, $contraseña);
         } else {
             return false;
         }
@@ -42,7 +42,7 @@ function token_expirados($correo) {
     mysqli_query($con, $sql);
 }
 
-function enviar_email($correo, $contraseña, $dominio, $puerto) {
+function enviar_email($destino, $contraseña) {
     include("../email/Exception.php");
     include("../email/PHPMailer.php");
     include("../email/SMTP.php");
@@ -61,7 +61,7 @@ function enviar_email($correo, $contraseña, $dominio, $puerto) {
         $Year = date('Y');
         $email->CharSet = 'UTF-8';
         $email->setFrom('janny.garcia703@gmail.com', 'Proyecto DUAL');
-        $email->addAddress($correo, 'Destinatario');
+        $email->addAddress($destino->correo, 'Destinatario');
         
         $email->isHTML(true);
         $email->Subject = 'Recuperación de contraseña';
