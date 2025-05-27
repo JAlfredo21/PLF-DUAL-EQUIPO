@@ -2,7 +2,7 @@ function server_historial_admin(model){
     return new Promise ((resolve,reject)=>{
         $.ajax({
             type: "POST",
-            url: "php/historial_admin.php",
+            url: "php/controlador/historial_admin.php",
             data: {
                 trama:JSON.stringify(model)
             },

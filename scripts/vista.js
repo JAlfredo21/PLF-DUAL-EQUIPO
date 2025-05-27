@@ -2,7 +2,7 @@ function server_vista(model){
     return new Promise ((resolve,reject)=>{
         $.ajax({
             type: "POST",
-            url: "php/vista.php",
+            url: "php/controlador/vista.php",
             data: {
                 trama:JSON.stringify(model)
             },

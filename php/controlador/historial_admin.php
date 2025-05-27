@@ -18,20 +18,20 @@ print(json_encode($respuesta_servidor)); //!si lo quitas truena la app!!! (Bási
 //* Consulta SQL para validar el usuario y la contraseña en la BD
 function consultar_datos($valores)
 {
-    include("conexion.php");
+    include("../conexion.php");
 
-    $sql = "select 
+    $sql = "SELECT 
             usuario.nombre,
             date(venta.fecha) AS fecha,
             time(venta.fecha) AS hora,
-            producto.nombre as producto,
+            producto.nombre AS producto,
             producto.id,
             producto.precio
-
-            from venta 
-            INNER JOIN usuario on usuario.id = venta.usuario_id
-            INNER JOIN producto on producto.id = venta.producto_id;          
-            ";
+            FROM `venta`
+            INNER JOIN usuario ON usuario.id = venta.usuario_id
+            INNER JOIN producto ON producto.id = venta.producto_id
+            order by venta.id;";
+    
     $query = mysqli_query($con, $sql);
 
     $array = array();

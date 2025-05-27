@@ -2,7 +2,7 @@ function server_graficas_admin(model) {
     return new Promise((resolve, reject) => {
         $.ajax({
             type: "POST",
-            url: "php/graficas_admin.php",
+            url: "php/controlador/graficas_admin.php",
             data: {
                 trama: JSON.stringify(model)
             },
