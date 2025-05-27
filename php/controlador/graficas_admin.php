@@ -18,9 +18,19 @@ print(json_encode($respuesta_servidor)); //!si lo quitas truena la app!!! (Bási
 //* Consulta SQL para validar el usuario y la contraseña en la BD
 function consultar_datos($valores)
 {
-    include("conexion.php");
+    include("../conexion.php");
 
-    $sql = "SELECT * from venta WHERE date(fecha) BETWEEN '$valores->f_inicio' AND '$valores->f_fin'";
+    $sql = "
+            SELECT 
+            venta.id,
+            date(venta.fecha) AS fecha,
+            producto.nombre as producto,
+            usuario.nombre as usuario
+            from venta 
+            INNER JOIN producto ON producto.id = venta.producto_id
+            INNER JOIN usuario ON usuario.id = venta.usuario_id
+            WHERE date(fecha) BETWEEN '$valores->f_inicio' AND '$valores->f_fin'
+            ORDER BY venta.id";
     $query = mysqli_query($con, $sql);
 
     $array = array();

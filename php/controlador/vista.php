@@ -10,7 +10,7 @@ $respuesta_servidor = new stdClass();
 //* Condicionales para gestionar cuando se hará cada función
 if ($clientejson->accion == 0) {
     $respuesta_servidor->resultado = consultar_datos($clientejson);
-} 
+}
 
 print(json_encode($respuesta_servidor)); //!si lo quitas truena la app!!! (Básicamente returna un json del resultado de la consulta y si lo quitas truena)
 
@@ -18,9 +18,10 @@ print(json_encode($respuesta_servidor)); //!si lo quitas truena la app!!! (Bási
 //* Consulta SQL para validar el usuario y la contraseña en la BD
 function consultar_datos($valores)
 {
-    include("conexion.php");
+    include("../conexion.php");
 
-    $sql = "SELECT * FROM producto";
+    $sql = "SELECT * FROM producto;";
+    
     $query = mysqli_query($con, $sql);
 
     $array = array();
@@ -29,5 +30,3 @@ function consultar_datos($valores)
     }
     return $array;
 }
-
-
