@@ -20,6 +20,7 @@ function server_graficas_admin(model) {
 
 let graficaBarras = null
 let graficaPastel = null
+let graficaLineal = null
 async function consultar_datos() {
     let model = {
         accion: 0,
@@ -135,8 +136,69 @@ async function consultar_datos() {
             }
         }
     });
-}
 
-async function grafica_barras(params) {
-    
+
+    //* Gráfica lineal
+    // Paso 1: Contar ventas por día
+    const ventasPorDia = {};
+
+    datos.forEach(item => {
+        const fecha = item.fecha; // ya es un string como '2024-06-01'
+        ventasPorDia[fecha] = (ventasPorDia[fecha] || 0) + 1;
+    });
+
+    // Paso 2: Preparar etiquetas (fechas) y valores (ventas por día)
+    const fechas = Object.keys(ventasPorDia).sort();
+    const ventas = fechas.map(fecha => ventasPorDia[fecha]);
+
+    const ctx3 = document.getElementById("grafica-lineal").getContext("2d");
+
+    if (graficaLineal) {
+        graficaLineal.destroy();
+    }
+
+    graficaLineal = new Chart(ctx3, {
+        type: 'line',
+        data: {
+            labels: fechas,
+            datasets: [{
+                label: 'Ventas por día',
+                data: ventas,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                tension: 0.3,
+                fill: true,
+                pointRadius: 4,
+                pointHoverRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Fecha'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Cantidad de ventas'
+                    }
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Ventas por día'
+                },
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
 }
