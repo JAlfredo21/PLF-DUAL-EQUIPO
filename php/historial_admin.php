@@ -29,7 +29,8 @@ function consultar_datos($valores)
             producto.precio
             FROM `venta`
             INNER JOIN usuario ON usuario.id = venta.usuario_id
-            INNER JOIN producto ON producto.id = venta.producto_id;";
+            INNER JOIN producto ON producto.id = venta.producto_id
+            order by venta.id;";
     
     $query = mysqli_query($con, $sql);
 
