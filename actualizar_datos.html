@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,12 @@
     <link rel="icon" type="image/png" href="assets/images/VMS.png" sizes="32x32">
     <title>Actualizar Datos</title>
 </head>
-<body onload="solo_user_o_admin();">
+
+<body>
     <header>
         <div class="horizontal-menu">
-            <button class="btn-volver" onclick="window.location.href='vista_cliente.html'">Volver</button>    <!-- onclick="window.location.href='<?php echo ($es_admin == 1) ? "vista.html" : "vista_cliente.html"; ? -->
+            <button class="btn-volver" onclick="window.location.href='vista_cliente.html'">Volver</button>
+            <!-- onclick="window.location.href='<?php echo ($es_admin == 1) ? "vista.html" : "vista_cliente.html"; ? -->
             <h2 class="titulo-centro">Actualizar tus Datos</h2>
         </div>
     </header>
@@ -27,12 +30,11 @@
         <span id="mensaje-danger"></span><br>
         <button type="button" value="Actualizar" onclick="actualizar_usuario()">Actualizar</button>
     </form>
-    
+
 </body>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="scripts/acceso.js"></script>
-    <script src="scripts/login.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- <script src="scripts/acceso.js"></script> -->
+<script src="scripts/login.js"></script>
 
 </html>
-

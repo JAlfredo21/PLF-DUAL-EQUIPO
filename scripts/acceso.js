@@ -12,6 +12,7 @@ function cerrar_sesion() {
 // Función para permitir solo admin
 function solo_admin() {
     if (sessionStorage.getItem("rol") !== "admin") {
+        //console.log(sessionStorage.getItem("rol"));
         window.location.href = "login.html";
     }
 }
@@ -25,7 +26,7 @@ function solo_user() {
 
 // Función para permitir user o admin
 function solo_user_o_admin() {
-    const rol = sessionStorage.getItem("rol");
+    let rol = sessionStorage.getItem("rol");
     if (rol !== "user" && rol !== "admin") {
         window.location.href = "login.html";
     }
