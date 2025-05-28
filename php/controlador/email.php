@@ -25,6 +25,7 @@ function verificacion_email($valores) {
         //token_expirados($valores->correo);
         $hash = password_hash($contraseña, PASSWORD_DEFAULT);
         $sql_contraseña = "UPDATE usuario SET contrasenia = '$hash' WHERE correo = '$valores->correo'";
+        //var_dump($sql_contraseña);
         if (mysqli_query($con, $sql_contraseña)) {
             return enviar_email($valores, $contraseña);
         } else {
@@ -33,13 +34,6 @@ function verificacion_email($valores) {
     } else {
         return false;
     }
-}
-
-function token_expirados($correo) {
-    include("../conexion.php");
-
-    $sql = "UPDATE usuario SET token = NULL, token_expiracion = NULL WHERE correo = '$correo'";
-    mysqli_query($con, $sql);
 }
 
 function enviar_email($destino, $contraseña) {

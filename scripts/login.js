@@ -1,3 +1,4 @@
+sessionStorage.clear();
 let respuesta = ""
 function server_login(model) {
     return new Promise((resolve, reject) => {
@@ -11,10 +12,10 @@ function server_login(model) {
                 respuesta = response
                 try {
                     resolve(JSON.parse(response))
-                    //console.log(response);
+                    console.log(response);
                 } catch (error) {
-                    //console.log(error);
                     reject(error)
+                    console.log(error);
                 }
             }
         })
@@ -44,21 +45,26 @@ function server_email(model){
 
 async function iniciar_sesion() {
     let model = {
-        accion: 0,
-        usuario: $("#login-usuario").val().trim(),
-        contrasenia: $("#login-contraseña").val().trim(),
+        accion: 1,
+        nombre: $("#lg-nombre").val().trim(),
+        contrasenia: $("#lg-contraseña").val().trim(),
     }
 
     let response = await server_login(model);
-
-    if (response.resultado === true) {
+    let res=JSON.parse(respuesta);
+    //console.log(model);
+    if (res.resultado === false) {
         // Redirigir a la página de inicio
-        window.location.href = "index.html";
-    } else {
-        // Mostrar mensaje de error
         let errorMessage = document.getElementById('mensaje-error');
         errorMessage.style.display = 'block';
         errorMessage.textContent = 'Usuario o contraseña incorrectos. Por favor, inténtelo nuevamente.';
+    } else {
+        sessionStorage.setItem("result", respuesta);
+        sessionStorage.setItem("log", 'true');
+        sessionStorage.setItem("rol", res.resultado[4]);
+        window.location.href = "vista_cliente.html";
+        // Mostrar mensaje de error
+        
     }
 }
 
@@ -87,6 +93,31 @@ async function recuperar_contraseña() {
         emailmessaged.style.display = 'block';
         emailmessaged.textContent = 'El correo ingresado no está registrado. Por favor, inténtelo nuevamente.';
         emailmessages.style.display = 'none';
+    }
+}
+
+async function registrar_usuario() {
+    let model = {
+        accion: 0,
+        nombre: $("#rg-nombre").val().trim(),
+        correo: $("#rg-correo").val().trim(),
+        contrasenia: $("#rg-contraseña").val().trim().toLowerCase(),
+    }
+
+    let response = await server_login(model);
+    
+    let successMessage = document.getElementById('mensaje-success');
+    let errorMessage = document.getElementById('mensaje-danger');
+
+    if (response.resultado === true) {
+        successMessage.style.display = 'block'; 
+        successMessage.textContent = 'Usuario registrado exitosamente.';
+        errorMessage.style.display = 'none';
+    } else {
+        // Mostrar mensaje de error
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = 'El correo ya existe. Por favor, inténtelo nuevamente.';
+        successMessage.style.display = 'none';
     }
 }
 

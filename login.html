@@ -47,14 +47,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <form>
         <h2>Iniciar Sesión</h2>
-        <label>Correo:</label>
-        <input type="email" name="nombre" id="lg-correo" required><br>
+        <label>Usuario:</label>
+        <input type="text" name="nombre" id="lg-nombre" placeholder="Ingrese su nombre de usuario" required><br>
         <label>Contraseña:</label>
-        <input type="password" name="contrasenia" id="lg-contraseña" required><br>
+        <input type="password" name="contrasenia" id="lg-contraseña" placeholder="Ingrese su contraseña" required><br>
         <span id="mensaje-error" style="display: none; color:rgba(255, 0, 0, 0.759);"></span>
-        <button type="button" value="Iniciar sesión">Iniciar sesión</button>
+        <button type="button" value="Iniciar sesión" onclick="iniciar_sesion()">Iniciar sesión</button>
     </form>
 
     <a href="recuperar.html">¿Se te olvidó tu contraseña?</a>
 </body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="scripts/login.js"></script>
+
 </html>

@@ -77,6 +77,12 @@ if (isset($_SESSION['filtros_grafica'])) {
         <input type="submit" value="Buscar" class="btn_buscar">
     </form>
 
+    <div class="graficos">
+        <canvas id="grafica-barras"></canvas>
+        <canvas id="grafica-pastel"></canvas>
+        <canvas id="grafica-lineal"></canvas>
+    </div>
+
  <!--    <?php if (!empty($datos)) { ?>
         <div class="graficos">
              Gráfico de barras 
@@ -156,4 +162,9 @@ if (isset($_SESSION['filtros_grafica'])) {
     <?php } ?> -->
 
 </body>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="scripts/graficas.js"></script>
+
 </html>

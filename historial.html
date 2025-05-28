@@ -31,7 +31,7 @@ $resultado = $stmt->get_result();
     <link rel="stylesheet" href="assets/css/historial.css">
     <link rel="icon" type="image/png" href="assets/images/VMS.png" sizes="32x32">
 </head>
-<body>
+<body onload="consultar_historial()">
 
     <header>
         <div class="horizontal-menu">
@@ -41,13 +41,17 @@ $resultado = $stmt->get_result();
     </header>
 
     <table border="1">
-        <tr>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Producto</th>
-            <th>Opción (ID)</th>
-            <th>Precio</th>
-        </tr>
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Producto</th>
+                <th>Opción (ID)</th>
+                <th>Precio</th>
+           </tr>
+        </thead>
+        <tbody id="tbl-hist"></tbody>
+        <tfoot></tfoot>
        <!--  <?php while ($row = $resultado->fetch_assoc()) { ?>
             <tr>
                 <?php
@@ -64,5 +68,9 @@ $resultado = $stmt->get_result();
         <?php } ?> -->
     </table>
 </body>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="scripts/historial.js"></script>
+
 </html>
 
