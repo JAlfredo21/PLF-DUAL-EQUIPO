@@ -1,48 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vista Cliente</title>
-    <link rel="stylesheet" href="assets/css/vista_cliente.css">
-    <link rel="icon" type="image/png" href="assets/images/VMS.png" sizes="32x32">
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Vista Cliente</title>
+   <link rel="stylesheet" href="assets/css/vista_cliente.css">
+   <link rel="icon" type="image/png" href="assets/images/VMS.png" sizes="32x32">
 </head>
-<body>
-    <header>
-        <div class="horizontal-menu">
-             <h2>Bienvenido | Angel (session storage)</h2>
-          <ul class="horizontal-list">
-             <li><img src="assets/images/perfilicon.png" alt="Editar" class="list-icon">
-                <a href="actualizar_datos.html">Actualizar Datos</a></li>
-             <li><img src="assets/images/note.png" alt="Historial" class="list-icon">
-                <a href="historial.html">Historial</a></li>
-             <li><img src="assets/images/grafica.png" alt="Grafica" class="list-icon">
-                <a href="graficas.html">Graficas</a></li>
-             <li><img src="assets/images/cerrar.png" alt="CerrarS" class="list-icon">
-                <a href="cerrar_sesion.html">Cerrar Sesión</a></li>
-          </ul>
-        </div>
-    </header>
+
+<body onload="consultar_producto();">
+   <header>
+      <div class="horizontal-menu">
+         <h2>Bienvenido | Angel (session storage)</h2>
+         <ul class="horizontal-list">
+            <li><img src="assets/images/perfilicon.png" alt="Editar" class="list-icon">
+               <a href="actualizar_datos.html">Actualizar Datos</a>
+            </li>
+            <li><img src="assets/images/note.png" alt="Historial" class="list-icon">
+               <a href="historial.html">Historial</a>
+            </li>
+            <li><img src="assets/images/grafica.png" alt="Grafica" class="list-icon">
+               <a href="graficas.html">Graficas</a>
+            </li>
+            <li><img src="assets/images/cerrar.png" alt="CerrarS" class="list-icon">
+               <a href="cerrar_sesion.html">Cerrar Sesión</a>
+            </li>
+         </ul>
+      </div>
+   </header>
 
    <main>
       <h3>Productos Disponibles</h3>
-      <form method="POST" >  <!--action="procesar_compra.php"-->
+      <form method="POST"> <!--action="procesar_compra.php"-->
          <div class="producto-lista">
-            <!-- <?php
-            $resultado = $conexion->query("SELECT * FROM producto");
-            while ($producto = $resultado->fetch_assoc()) {
-                  echo "<label class='producto-item'>";
-                  echo "<span class='nombre'>" . htmlspecialchars($producto['nombre']) . "</span>";
-                  echo "<span class='precio'>$" . number_format($producto['precio'], 2) . "</span>";
-                  echo "<input type='checkbox' name='producto_id[]' value='" . $producto['id'] . "'>";
-                  echo "</label>";
-            } -->
+
          </div>
-         <button type="submit" class="btn_comprar">Comprar</button>
+
+         <button type="button" class="btn_comprar">Comprar</button>
+
       </form>
 
    </main>
 
-
 </body>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="scripts/vista_cliente.js"></script>
+
 </html>

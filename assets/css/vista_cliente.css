@@ -23,7 +23,7 @@ h2 {
     list-style: none;
     display: flex;
     justify-content: center;
-    gap: 2rem; 
+    gap: 2rem;
 }
 
 .horizontal-list li a {
@@ -40,23 +40,24 @@ h2 {
 }
 
 .list-icon {
-    width: 20px; 
+    width: 20px;
     height: 20px;
-    margin-right: 2px; 
-    vertical-align: middle; 
+    margin-right: 2px;
+    vertical-align: middle;
 }
 
+/* Estilo para el formulario */
 form {
     background-color: #eff0ef;
     border: 1px solid #cccccc;
     padding: 20px;
-    margin: 50px auto; 
-    max-width: 600px;   
-    width: 90%;         
+    margin: 50px auto;
+    max-width: 600px;
+    width: 90%;
     border-radius: 5px;
 }
 
-
+/* Lista de productos en forma de tarjetas */
 .producto-lista {
     display: flex;
     flex-wrap: wrap;
@@ -65,6 +66,7 @@ form {
     justify-content: center;
 }
 
+/* Estilo individual para cada producto */
 .producto-item {
     display: flex;
     align-items: center;
@@ -76,7 +78,7 @@ form {
     cursor: pointer;
 }
 
-.producto-item input[type="radio"] {
+.producto-item input[type="checkbox"] {
     transform: scale(1.2);
     cursor: pointer;
 }
@@ -90,16 +92,18 @@ form {
     color: #333;
 }
 
+/* Botón de compra */
 .btn_comprar {
-    background-color: #3498db; /* Azul */
+    background-color: #3498db;
     color: #ffffff;
     border: none;
     padding: 8px 15px;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-top: 20px;
 }
 
 .btn_comprar:hover {
-    background-color: #2980b9; /* Azul más oscuro */
+    background-color: #2980b9;
 }
