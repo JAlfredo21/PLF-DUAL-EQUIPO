@@ -59,3 +59,7 @@ async function actualizar_datos() {
         alert("Error al enviar los datos");
     }
 }
+
+async function pago_cliente() {
+    
+}
