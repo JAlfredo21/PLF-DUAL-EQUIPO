@@ -100,8 +100,8 @@ async function registrar_usuario() {
     let model = {
         accion: 0,
         nombre: $("#rg-nombre").val().trim(),
-        correo: $("#rg-correo").val().trim(),
-        contrasenia: $("#rg-contraseña").val().trim().toLowerCase(),
+        correo: $("#rg-correo").val().trim().toLowerCase(),
+        contrasenia: $("#rg-contraseña").val(),
     }
 
     let response = await server_login(model);
@@ -117,6 +117,34 @@ async function registrar_usuario() {
         // Mostrar mensaje de error
         errorMessage.style.display = 'block';
         errorMessage.textContent = 'El correo ya existe. Por favor, inténtelo nuevamente.';
+        successMessage.style.display = 'none';
+    }
+}
+
+async function actualizar_usuario() {
+    let model = {
+        acccion: 2,
+        nombre: $("#up-nombre").val().trim(),
+        correo: $("#up-correo").val().trim().toLowerCase(),
+        contrasenia: $("#up-contraseña").val().trim(),
+
+    }
+
+    let response = await server_login(model);
+
+    let successMessage = document.getElementById('mensaje-success');
+    let errorMessage = document.getElementById('mensaje-danger');
+
+    if (response.resultado === true) {
+        // Mostrar mensaje de éxito
+        successMessage.style = 'display: block; color: green; font-weight: bold;';
+        successMessage.textContent = 'Usuario actualizado exitosamente.';
+        errorMessage.style.display = 'none';
+        
+    } else {
+        // Mostrar mensaje de error
+        errorMessage.style = 'display: block; color: red; font-weight: bold;';
+        errorMessage.textContent = 'Error al actualizar el usuario. Por favor, inténtelo nuevamente.';
         successMessage.style.display = 'none';
     }
 }

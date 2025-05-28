@@ -9,6 +9,8 @@ if ($clientejson->accion == 0) {
     $respuesta_servidor->resultado = insertar_usuario($clientejson);
 }elseif ($clientejson->accion == 1) {
     $respuesta_servidor->resultado = validar_usuario($clientejson);
+}elseif ($clientejson->accion == 2) {
+    $respuesta_servidor->resultado = actualizar_usuario($clientejson);
 }
 
 print(json_encode($respuesta_servidor));
@@ -47,6 +49,20 @@ function insertar_usuario($valores) {
         return false;
     } else {
         //var_dump($sql);
+        return mysqli_query($con, $sql);
+    }
+}
+
+function actualizar_usuario($valores) {
+    include("../conexion.php");
+
+    $sql = "UPDATE usuario SET nombre = '$valores->nombre', correo = '$valores->correo' WHERE id = $valores->id";
+
+    $sql_mail = "SELECT * FROM usuario WHERE correo = '$valores->correo'";
+    
+    if (mysqli_query($con, $sql_mail)->num_rows > 0) {
+        return false;
+    } else {
         return mysqli_query($con, $sql);
     }
 }
