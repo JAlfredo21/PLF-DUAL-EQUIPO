@@ -56,14 +56,12 @@ function insertar_usuario($valores) {
 function actualizar_usuario($valores) {
     include("../conexion.php");
 
-    $sql = "UPDATE usuario SET nombre = '$valores->nombre', correo = '$valores->correo' WHERE id = $valores->id";
-
-    $sql_mail = "SELECT * FROM usuario WHERE correo = '$valores->correo'";
+    $sql = "UPDATE usuario SET nombre = '$valores->nombre', correo = '$valores->correo', contrasenia = '$valores->contrasenia' WHERE id = $valores->id";
     
-    if (mysqli_query($con, $sql_mail)->num_rows > 0) {
-        return false;
+    if (mysqli_query($con, $sql)) {
+        return true;
     } else {
-        return mysqli_query($con, $sql);
+        return false;
     }
 }
 ?>

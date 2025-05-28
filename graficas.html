@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="assets/css/graficas.css"> <!-- Agrega la ruta correcta al archivo CSS -->
     <link rel="icon" type="image/png" href="assets/images/VMS.png" sizes="32x32">
 </head>
-<body>
+<body onload="solo_user()">
 
     <header>
         <div class="horizontal-menu">
@@ -30,88 +30,11 @@
         <canvas id="grafica-lineal"></canvas>
     </div>
 
- <!--    <?php if (!empty($datos)) { ?>
-        <div class="graficos">
-             Gráfico de barras 
-            <canvas id="graficaBarras"></canvas>
-
-             Gráfico de pastel 
-            <canvas id="graficaPastel"></canvas>
-
-             Gráfico lineal 
-            <canvas id="graficaLineal"></canvas>
-        </div>
-
-        <script>
-            const datosLabels = <?php echo json_encode(array_column($datos, 'dia')); ?>;
-            const datosTotales = <?php echo json_encode(array_column($datos, 'total')); ?>;
-
-            // Gráfico de barras
-            const ctxBarras = document.getElementById('graficaBarras').getContext('2d');
-            const graficaBarras = new Chart(ctxBarras, {
-                type: 'bar',
-                data: {
-                    labels: datosLabels,
-                    datasets: [{
-                        label: 'Número de compras por día',
-                        data: datosTotales,
-                        backgroundColor: '#3498db'
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            stepSize: 1
-                        }
-                    }
-                }
-            });
-
-            // Gráfico de pastel
-            const ctxPastel = document.getElementById('graficaPastel').getContext('2d');
-            const graficaPastel = new Chart(ctxPastel, {
-                type: 'pie',
-                data: {
-                    labels: datosLabels,
-                    datasets: [{
-                        data: datosTotales,
-                        backgroundColor: ['#3498db', '#2ecc71', '#e74c3c', '#f39c12', '#9b59b6', '#34495e'],
-                    }]
-                }
-            });
-
-            // Gráfico lineal
-            const ctxLineal = document.getElementById('graficaLineal').getContext('2d');
-            const graficaLineal = new Chart(ctxLineal, {
-                type: 'line',
-                data: {
-                    labels: datosLabels,
-                    datasets: [{
-                        label: 'Número de compras por día',
-                        data: datosTotales,
-                        borderColor: '#3498db',
-                        fill: false
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            stepSize: 1
-                        }
-                    }
-                }
-            });
-        </script>
-    <?php } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') { ?>
-        <p>No hay ventas en ese rango de fechas.</p>
-    <?php } ?> -->
-
 </body>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="scripts/acceso.js"></script>
     <script src="scripts/graficas.js"></script>
 
 </html>

@@ -8,7 +8,7 @@ function server_login(model) {
             data: {
                 trama: JSON.stringify(model)
             },
-            success: function(response) {
+            success: function (response) {
                 respuesta = response
                 try {
                     resolve(JSON.parse(response))
@@ -21,21 +21,21 @@ function server_login(model) {
         })
     })
 }
-function server_email(model){
-    return new Promise ((resolve,reject)=>{
+function server_email(model) {
+    return new Promise((resolve, reject) => {
         $.ajax({
             type: "POST",
             url: "php/controlador/email.php",
             data: {
-                trama:JSON.stringify(model)
+                trama: JSON.stringify(model)
             },
-            success: function(response){
+            success: function (response) {
                 respuesta = response
                 try {
-                    resolve(JSON.parse(response))  
+                    resolve(JSON.parse(response))
                     //console.log(response);
                 } catch (error) {
-                     //console.log(error);
+                    //console.log(error);
                     reject(error)
                 }
             }
@@ -51,7 +51,7 @@ async function iniciar_sesion() {
     }
 
     let response = await server_login(model);
-    let res=JSON.parse(respuesta);
+    let res = JSON.parse(respuesta);
     //console.log(model);
     if (res.resultado === false) {
         // Redirigir a la página de inicio
@@ -62,33 +62,36 @@ async function iniciar_sesion() {
         sessionStorage.setItem("result", respuesta);
         sessionStorage.setItem("log", 'true');
         sessionStorage.setItem("rol", res.resultado[4]);
-        window.location.href = "vista_cliente.html";
-        // Mostrar mensaje de error
-        
+        if (res.resultado[4] === 'admin') {
+            window.location.href = "vista.html"; // Redirigir a la página de administrador
+        } else {
+            window.location.href = "vista_cliente.html"; // Redirigir a la página de usuario
+        }
+
     }
 }
 
 async function recuperar_contraseña() {
-    let model ={
-        accion : 0,
-        correo : $("#rpc-correo").val().trim(),
+    let model = {
+        accion: 0,
+        correo: $("#rpc-correo").val().trim(),
         // dominio : window.location.hostname,
         // puerto : location.port
     }
-    
+
     let response = await server_email(model);
 
     let emailmessages = document.getElementById('mensaje-correo-success');
     let emailmessaged = document.getElementById('mensaje-correo-danger');
 
-    if(response.resultado === true) {
+    if (response.resultado === true) {
 
         // let token = response.token; // Suponiendo que el servidor devuelve un token
         // let enlace = await enlaceconParametros(token); // Obtener el enlace con el token
         emailmessages.style.display = 'block';
         emailmessages.textContent = 'Te hemos enviado un correo para recuperar tu contraseña.';
         emailmessaged.style.display = 'none';
-        
+
     } else {
         emailmessaged.style.display = 'block';
         emailmessaged.textContent = 'El correo ingresado no está registrado. Por favor, inténtelo nuevamente.';
@@ -105,14 +108,30 @@ async function registrar_usuario() {
     }
 
     let response = await server_login(model);
-    
+
     let successMessage = document.getElementById('mensaje-success');
     let errorMessage = document.getElementById('mensaje-danger');
 
     if (response.resultado === true) {
-        successMessage.style.display = 'block'; 
-        successMessage.textContent = 'Usuario registrado exitosamente.';
-        errorMessage.style.display = 'none';
+        // Iniciar sesión automáticamente después de registrar
+        let loginModel = {
+            accion: 1,
+            nombre: $("#rg-nombre").val().trim(),
+            contrasenia: $("#rg-contraseña").val(),
+        };
+        let loginResponse = await server_login(loginModel);
+        let res = JSON.parse(respuesta);
+
+        sessionStorage.setItem("result", respuesta);
+        sessionStorage.setItem("log", 'true');
+        sessionStorage.setItem("rol", res.resultado[4]);
+
+        // Redirigir según el rol
+        if (res.resultado[4] === "admin") {
+            window.location.href = "vista.html";
+        } else {
+            window.location.href = "vista_cliente.html";
+        }
     } else {
         // Mostrar mensaje de error
         errorMessage.style.display = 'block';
@@ -122,8 +141,11 @@ async function registrar_usuario() {
 }
 
 async function actualizar_usuario() {
+    let usuario = JSON.parse(sessionStorage.getItem("result"));
+    let usuario_id = usuario.resultado[0];
     let model = {
-        acccion: 2,
+        accion: 2,
+        id: usuario_id,
         nombre: $("#up-nombre").val().trim(),
         correo: $("#up-correo").val().trim().toLowerCase(),
         contrasenia: $("#up-contraseña").val().trim(),
@@ -140,7 +162,7 @@ async function actualizar_usuario() {
         successMessage.style = 'display: block; color: green; font-weight: bold;';
         successMessage.textContent = 'Usuario actualizado exitosamente.';
         errorMessage.style.display = 'none';
-        
+
     } else {
         // Mostrar mensaje de error
         errorMessage.style = 'display: block; color: red; font-weight: bold;';

@@ -1,45 +1,3 @@
-<!-- <?php
-include 'conexion.php';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $correo = $_POST['correo'];
-
-    // Buscar usuario con ese correo
-    $sql = "SELECT * FROM usuario WHERE correo=?";
-    $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("s", $correo);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
-
-    if ($resultado->num_rows == 1) {
-        // Restaurar nombre y contraseña a valores globales
-        $nuevoNombre = "admin";
-        $nuevaContrasenia = "12345";
-
-        $sqlUpdate = "UPDATE usuario SET nombre=?, contrasenia=? WHERE correo=?";
-        $stmtUpdate = $conexion->prepare($sqlUpdate);
-        $stmtUpdate->bind_param("sss", $nuevoNombre, $nuevaContrasenia, $correo);
-
-        if ($stmtUpdate->execute()) {
-            echo '
-                <script>
-                    alert("✅ Cuenta restaurada. Usuario: admin | Contraseña: 12345");
-                    window.location = "login.php";
-                </script>
-            ';
-        } else {
-            echo "❌ Error al actualizar: " . $conexion->error;
-        }
-    } else {
-        echo '
-            <script>
-                alert("❌ Correo no encontrado en la base de datos.");
-                window.location = "recuperar.php";
-            </script>
-        ';
-    }
-} -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="icon" type="image/png" href="assets/images/VMS.png" sizes="32x32">
     <link rel="stylesheet" href="assets/css/recuperar.css">
 </head>
-<body>
+<body onload="solo_admin();">
     <header>
         <div class="horizontal-menu">
             <button class="btn-volver" onclick="window.location.href='login.html'">Volver</button>
@@ -67,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
 </body>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="scripts/acceso.js"></script>
     <script src="scripts/login.js"></script>
 </html>
 

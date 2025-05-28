@@ -1,39 +1,3 @@
-
-<!-- 
-// Obtener info del usuario logueado
-$id_usuario = $_SESSION['usuario'];
-$sql = "SELECT * FROM usuario WHERE id = ?";
-$stmt = $conexion->prepare($sql);
-$stmt->bind_param("i", $id_usuario);
-$stmt->execute();
-$resultado = $stmt->get_result();
-$usuario = $resultado->fetch_assoc();
-
-// Verificar si es admin
-if ($usuario['es_admin'] != 1) {
-    echo "<h3>Acceso denegado. Solo el administrador puede registrar clientes.</h3>";
-    exit();
-}
-
-// Si se envió el formulario
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nuevo_nombre = $_POST['nombre'];
-    $nuevo_contrasenia = $_POST['contrasenia'];
-    $nuevo_correo = $_POST['correo'];
-
-    // Insertar nuevo cliente con es_admin = 0
-    $sql = "INSERT INTO usuario (nombre, contrasenia, correo, es_admin) VALUES (?, ?, ?, 0)";
-    $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("sss", $nuevo_nombre, $nuevo_contrasenia, $nuevo_correo);
-
-    if ($stmt->execute()) {
-        echo "<script>alert('Cliente registrado correctamente');
-                window.location = 'vista.php'; </script>";
-    } else {
-        echo "<script>alert('Error al registrar cliente');</script>";
-    }
-} -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="icon" type="image/png" href="assets/images/VMS.png" sizes="32x32">
     <link rel="stylesheet" href="assets/css/registro_cliente.css">
 </head>
-<body>
+<body onload="solo_admin();">
     <header>
         <div class="horizontal-menu">
             <button class="btn-volver" onclick="window.location.href='vista.html'">Volver</button>
@@ -67,6 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="scripts/acceso.js"></script>
     <script src="scripts/login.js"></script>
 
 </html>
