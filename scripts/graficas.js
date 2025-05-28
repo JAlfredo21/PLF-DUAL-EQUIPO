@@ -31,14 +31,14 @@ async function consultar_datos() {
 
     let server = await server_grafica(model);
     let datos = server.resultado;
-
+    //Paso 1: Contar frecuencia de cada producto
     const conteoProductos = {};
 
     datos.forEach(item => {
         const nombreProducto = item.producto;
         conteoProductos[nombreProducto] = (conteoProductos[nombreProducto] || 0) + 1;
     });
-
+    // Paso 2: Preparar etiquetas (IDs de productos) y valores (cantidad vendida)
     const etiquetas = Object.keys(conteoProductos);
     const valores = Object.values(conteoProductos);
 
@@ -64,11 +64,46 @@ async function consultar_datos() {
             responsive: true,
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Cantidad de ventas"
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Nombre de producto"
+                    }
                 }
             }
         }
     });
+
+    // Grafica de barras
+    // Paso 1: Contar frecuencia de cada producto_id
+    const usuario = {};
+
+    datos.forEach(item => {
+        const nombreUsuario = item.usuario;
+        usuario[nombreUsuario] = (usuario[nombreUsuario] || 0) + 1;
+    });
+
+    // Paso 2: Preparar etiquetas (IDs de productos) y valores (cantidad vendida)
+    const etiquetasUsuarios = Object.keys(usuario);
+    const valoresUsuarios = Object.values(usuario); 
+
+    const colores = [
+        "rgba(255, 99, 132, 0.6)",
+        "rgba(54, 162, 235, 0.6)",
+        "rgba(255, 206, 86, 0.6)",
+        "rgba(75, 192, 192, 0.6)",
+        "rgba(153, 102, 255, 0.6)",
+        "rgba(255, 159, 64, 0.6)",
+        "rgba(100, 200, 100, 0.6)",
+        "rgba(200, 100, 150, 0.6)",
+        "rgba(100, 100, 200, 0.6)"
+    ]
 
     const ctxPastel = document.getElementById("grafica-pastel").getContext("2d");
     if (gpastel) {
@@ -78,29 +113,89 @@ async function consultar_datos() {
     gpastel = new Chart(ctxPastel, {
         type: "pie",
         data: {
-            labels: etiquetas,
+            labels: etiquetasUsuarios,
             datasets: [{
                 label: "Cantidad de ventas por producto",
-                data: valores,
-                backgroundColor: [
-                    "rgba(255, 99, 132, 0.6)",
-                    "rgba(54, 162, 235, 0.6)",
-                    "rgba(255, 206, 86, 0.6)",
-                    "rgba(75, 192, 192, 0.6)",
-                    "rgba(153, 102, 255, 0.6)"
-                ],
-                borderColor: [
-                    "rgba(255, 99, 132, 1)",
-                    "rgba(54, 162, 235, 1)",
-                    "rgba(255, 206, 86, 1)",
-                    "rgba(75, 192, 192, 1)",
-                    "rgba(153, 102, 255, 1)"
-                ],
+                data: valoresUsuarios,
+                backgroundColor: colores,
+                borderColor: "#fff",
                 borderWidth: 1
             }]
         },
         options: {
-            responsive: true
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'right',
+                },
+                title: {
+                    display: true,
+                    text: 'Compras del usuario'
+                }
+            }
+        }
+    });
+
+    // Grafica de lineal
+    // Paso 1: Contar ventas por día
+    const ventasPorDia = {};
+
+    datos.forEach(item => {
+        const fecha = item.fecha.split(" ")[0]; // Obtener solo la fecha sin la hora
+        ventasPorDia[fecha] = (ventasPorDia[fecha] || 0) + 1;
+    });
+
+    // Paso 2: Preparar etiquetas (fechas) y valores (vendida por día)
+
+    const fechas = Object.keys(ventasPorDia).sort();
+    const ventas = fechas.map(fecha => ventasPorDia[fecha]);
+    const ctxLineal = document.getElementById("grafica-lineal").getContext("2d");
+
+    if (glineal) {
+        glineal.destroy();
+    }
+
+    glineal = new Chart(ctxLineal, {
+        type: "line",
+        data: {
+            labels: fechas,
+            datasets: [{
+                label: "Ventas por día",
+                data: ventas,
+                backgroundColor: "rgba(153, 102, 255, 0.6)",
+                borderColor: "rgba(153, 102, 255, 1)",
+                tension: 0.3,
+                fill: true,
+                pointRadius: 4,
+                pointHoverRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Cantidad de ventas"
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Fecha"
+                    }
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Ventas por día"
+                },
+                legend: {
+                    display: false
+                }
+            }
         }
     });
 
