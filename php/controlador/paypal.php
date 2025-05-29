@@ -1,7 +1,7 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+error_reporting(E_ALL & ~E_DEPRECATED);
 
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set('America/Mexico_City');
@@ -63,7 +63,11 @@ function crear_orden($valores)
                 "currency_code" => "MXN",
                 "value" => $monto
             ]
-        ]]
+        ]],
+        'application_context' => [
+            'return_url' => 'https://localhost/PLF-DUAL-EQUIPO/vista_cliente.html', // URL de retorno después del pago
+            'cancel_url' => 'https://localhost/PLF-DUAL-EQUIPO/vista_cliente.htmls' // URL de cancelación del pago
+        ]
     ];
 
     try {
@@ -83,12 +87,13 @@ function capturar_orden($valores)
     $environment = new \PayPalCheckoutSdk\Core\SandboxEnvironment($clientId, $clientSecret);
     $client = new \PayPalCheckoutSdk\Core\PayPalHttpClient($environment);
 
-    $request = new \PayPalCheckoutSdk\Orders\OrdersCaptureRequest($valores->ordenID);
+    $request = new \PayPalCheckoutSdk\Orders\OrdersCaptureRequest($valores->ordenId);
     $request->prefer('return=representation');
 
     try {
         $response = $client->execute($request);
-        return $response->result;
+        return ['id' => $response->result,
+        'links' => $response->result->links,];
     } catch (Exception $e) {
         return ['error' => $e->getMessage()];
     }
