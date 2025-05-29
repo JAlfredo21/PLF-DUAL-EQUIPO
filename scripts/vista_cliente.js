@@ -42,7 +42,7 @@ function server_paypal(model) {
 
 async function consultar_producto() {
     let respuesta = await server_vista_cliente({ accion: 0 });
-    console.log(respuesta);
+    //console.log(respuesta);
     let productos = respuesta.resultado;
     let html = '';
     if (Array.isArray(productos)) {
@@ -59,10 +59,20 @@ async function consultar_producto() {
     $(".producto-lista").html(html);
 }
 
+// Suma los precios de los productos seleccionados en el frontend
+/* let monto = 0;
+$('input[name="producto_id[]"]:checked').each(function() {
+    let precio = parseFloat($(this).closest('.producto-item').find('.precio').text().replace('$', ''));
+    monto += precio;
+}); */
+
+// Luego llama a crear_orden con el monto
+let respuesta = await crear_orden(monto);
+
 async function crear_orden(monto) {
     let respuesta = await server_paypal({
         accion: 0,
-        monto: monto
+        monto: 100
     });
 
     return respuesta.resultado;
@@ -93,35 +103,32 @@ async function capturar_orden(ordenId) {
     } */
 }
 
-$(document).ready(function() {
-    // Botón "Comprar con Paypal"
-    $('.btn_comprar').eq(1).click(async function() {
-        // Calcula el monto total según tus productos seleccionados
-        let monto = 100; // <-- reemplaza por el cálculo real
-
-        // Crea la orden en tu backend
-        let respuesta = await crearOrdenPaypal(monto);
-        if (respuesta && respuesta.id) {
-            // Si no existe el contenedor, lo agregamos
-            if ($('#paypal-button-container').length === 0) {
-                $('<div id="paypal-button-container"></div>').insertAfter($(this));
-            }
-            // Renderiza el botón de PayPal
-            paypal.Buttons({
-                createOrder: function(data, actions) {
-                    return respuesta.id;
-                },
-                onApprove: async function(data, actions) {
-                    let captura = await capturarOrdenPaypal(data.orderID);
-                    if (captura && captura.status === "COMPLETED") {
-                        alert("Pago realizado con éxito");
-                    } else {
-                        alert("Error al capturar el pago");
-                    }
-                }
-            }).render('#paypal-button-container');
-        } else {
-            alert("No se pudo crear la orden de PayPal");
-        }
+$('.btn_comprar').eq(1).click(async function() {
+    // Obtén los IDs de los productos seleccionados
+    let productosSeleccionados = [];
+    $('input[name="producto_id[]"]:checked').each(function() {
+        productosSeleccionados.push($(this).val());
     });
+
+    if (productosSeleccionados.length === 0) {
+        alert("Selecciona al menos un producto");
+        return;
+    }
+
+    // Crea la orden en tu backend, enviando los IDs
+    let respuesta = await crear_orden(productosSeleccionados);
+    if (respuesta && respuesta.id) {
+        // ...renderiza el botón de PayPal como ya tienes...
+    } else {
+        alert("No se pudo crear la orden de PayPal");
+    }
 });
+
+// Modifica la función crear_orden para aceptar IDs
+async function crear_orden(productos) {
+    let respuesta = await server_paypal({
+        accion: 0,
+        productos: productos // Envía los IDs al backend
+    });
+    return respuesta.resultado;
+}
