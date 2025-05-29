@@ -183,3 +183,8 @@ $(document).ready(async function () {
         }
     }
 });
+
+let user = JSON.parse(sessionStorage.getItem("result"));
+let user_name = user.resultado[1];
+
+$("#title").text("Bienvenido "+user_name)

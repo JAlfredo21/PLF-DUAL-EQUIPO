@@ -59,3 +59,8 @@ async function actualizar_datos() {
         alert("Error al enviar los datos");
     }
 }
+
+let user = JSON.parse(sessionStorage.getItem("result"));
+let user_name = user.resultado[1];
+
+$("#title").text("Bienvenido "+user_name)
