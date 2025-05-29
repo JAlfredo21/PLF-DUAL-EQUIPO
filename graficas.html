@@ -17,11 +17,11 @@
     </header>
 
     <form method="post" class="form_buscador">
-        <label for="fecha_inicio">Fecha Inicio:</label>
-        <input type="date" name="fecha_inicio" required>
-        <label for="fecha_fin">Fecha Fin:</label>
-        <input type="date" name="fecha_fin" required>
-        <input type="submit" value="Buscar" class="btn_buscar" onclick="consultar_datos()">
+        <label for="fecha-inicio">Fecha Inicio:</label>
+        <input type="date" id="fecha-inicio" name="fecha-inicio" required>
+        <label for="fecha-fin">Fecha Fin:</label>
+        <input type="date" id="fecha-fin" name="fecha-fin" required>
+        <button type="button" value="Buscar" class="btn_buscar" onclick="consultar_datos()">Buscar</button>
     </form>
 
     <div class="graficos">

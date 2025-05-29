@@ -3,10 +3,10 @@ function server_grafica(model) {
         $.ajax({
             type: "POST",
             url: "php/controlador/graficas.php",
-            data: { 
+            data: {
                 trama: JSON.stringify(model)
             },
-            success: function(response) {
+            success: function (response) {
                 try {
                     resolve(JSON.parse(response));
                 } catch (error) {
@@ -15,7 +15,7 @@ function server_grafica(model) {
             },
         });
     });
-    
+
 }
 
 let gbarra = null;
@@ -23,15 +23,23 @@ let gpastel = null;
 let glineal = null;
 
 async function consultar_datos() {
+
+    let user = JSON.parse(sessionStorage.getItem("result"));
+    let usuario_id = user.resultado[0]; // Ajusta si tu estructura es diferente
+
     let model = {
         accion: 0,
         f_inicio: $("#fecha-inicio").val(),
         f_fin: $("#fecha-fin").val(),
+        usuario_id: usuario_id
     }
 
     let server = await server_grafica(model);
     let datos = server.resultado;
-    //Paso 1: Contar frecuencia de cada producto
+
+    // Filtrar solo compras del usuario logueado
+    //sconst datosUsuario = datos.filter(item => item.usuario_id == usuario_id);
+
     const conteoProductos = {};
 
     datos.forEach(item => {
@@ -53,7 +61,7 @@ async function consultar_datos() {
         data: {
             labels: etiquetas,
             datasets: [{
-                label: "Cantidad de ventas por producto",
+                label: "Compras por producto",
                 data: valores,
                 backgroundColor: "rgba(75, 192, 192, 0.6)",
                 borderColor: "rgba(75, 192, 192, 1)",
@@ -67,7 +75,7 @@ async function consultar_datos() {
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: "Cantidad de ventas"
+                        text: "Cantidad de compras"
                     }
                 },
                 x: {
@@ -80,7 +88,7 @@ async function consultar_datos() {
         }
     });
 
-    // Grafica de barras
+    /* // Grafica de barras
     // Paso 1: Contar frecuencia de cada producto_id
     const usuario = {};
 
@@ -92,7 +100,7 @@ async function consultar_datos() {
     // Paso 2: Preparar etiquetas (IDs de productos) y valores (cantidad vendida)
     const etiquetasUsuarios = Object.keys(usuario);
     const valoresUsuarios = Object.values(usuario); 
-
+ */
     const colores = [
         "rgba(255, 99, 132, 0.6)",
         "rgba(54, 162, 235, 0.6)",
@@ -113,10 +121,10 @@ async function consultar_datos() {
     gpastel = new Chart(ctxPastel, {
         type: "pie",
         data: {
-            labels: etiquetasUsuarios,
+            labels: etiquetas,
             datasets: [{
-                label: "Cantidad de ventas por producto",
-                data: valoresUsuarios,
+                label: "Productos más consumidos",
+                data: valores,
                 backgroundColor: colores,
                 borderColor: "#fff",
                 borderWidth: 1
@@ -130,7 +138,7 @@ async function consultar_datos() {
                 },
                 title: {
                     display: true,
-                    text: 'Compras del usuario'
+                    text: 'Productos más consumidos'
                 }
             }
         }
@@ -160,7 +168,7 @@ async function consultar_datos() {
         data: {
             labels: fechas,
             datasets: [{
-                label: "Ventas por día",
+                label: "Compras por día",
                 data: ventas,
                 backgroundColor: "rgba(153, 102, 255, 0.6)",
                 borderColor: "rgba(153, 102, 255, 1)",
@@ -177,7 +185,7 @@ async function consultar_datos() {
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: "Cantidad de ventas"
+                        text: "Cantidad de compras"
                     }
                 },
                 x: {
@@ -190,7 +198,7 @@ async function consultar_datos() {
             plugins: {
                 title: {
                     display: true,
-                    text: "Ventas por día"
+                    text: "Compras por día"
                 },
                 legend: {
                     display: false

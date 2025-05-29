@@ -19,7 +19,7 @@ date_default_timezone_set('America/Mexico_City');    /* Especificamos la zona ho
                 SELECT
                     date(venta.fecha) AS fecha,
                     producto.nombre as producto,
-                    producto.precio as precio,
+                    producto.precio as precio
                 FROM venta 
                     INNER JOIN producto ON producto.id = venta.producto_id
                 WHERE 
