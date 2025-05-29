@@ -6,7 +6,7 @@ function server_vista_cliente(model) {
             data: {
                 trama: JSON.stringify(model)
             },
-            success: function(response) {
+            success: function (response) {
                 try {
                     resolve(JSON.parse(response));
                     //console.log(JSON.parse(response));
@@ -16,7 +16,7 @@ function server_vista_cliente(model) {
             }
         });
     });
-    
+
 }
 
 function server_paypal(model) {
@@ -36,7 +36,7 @@ function server_paypal(model) {
             }
         })
     })
-    
+
 }
 
 
@@ -59,31 +59,12 @@ async function consultar_producto() {
     $(".producto-lista").html(html);
 }
 
-// Suma los precios de los productos seleccionados en el frontend
-/* let monto = 0;
-$('input[name="producto_id[]"]:checked').each(function() {
-    let precio = parseFloat($(this).closest('.producto-item').find('.precio').text().replace('$', ''));
-    monto += precio;
-}); */
-
-// Luego llama a crear_orden con el monto
-let respuesta = await crear_orden(monto);
-
-async function crear_orden(monto) {
+async function crear_orden(productos) {
     let respuesta = await server_paypal({
         accion: 0,
-        monto: 100
+        productos: productos // Envía los IDs al backend
     });
-
     return respuesta.resultado;
-
-    /* if (server.resultado) {
-        // Redirigir al usuario a la URL de aprobación de PayPal
-        window.location.href = server.resultado.approval_url;
-    } else {
-        alert("Error al crear la orden de PayPal");
-    } */
-    
 }
 
 async function capturar_orden(ordenId) {
@@ -92,8 +73,15 @@ async function capturar_orden(ordenId) {
         ordenId: ordenId
     });
 
-    return respuesta.resultado;
-
+    console.log(respuesta);
+     let resultado = respuesta.resultado ? respuesta.resultado : respuesta;
+    //return respuesta.resultado;
+    if (resultado && resultado.status === "COMPLETED") {
+        alert("¡Pago realizado y orden capturada con éxito!");
+        // Aquí puedes registrar la compra en tu sistema o actualizar la interfaz
+    } else {
+        alert("No se pudo capturar la orden de PayPal");
+    }
     /* if (server.resultado) {
         // Aquí puedes manejar la respuesta de la captura de la orden
         console.log("Orden capturada:", server.resultado);
@@ -103,10 +91,10 @@ async function capturar_orden(ordenId) {
     } */
 }
 
-$('.btn_comprar').eq(1).click(async function() {
+$('.btn_comprar').eq(1).click(async function () {
     // Obtén los IDs de los productos seleccionados
     let productosSeleccionados = [];
-    $('input[name="producto_id[]"]:checked').each(function() {
+    $('input[name="producto_id[]"]:checked').each(function () {
         productosSeleccionados.push($(this).val());
     });
 
@@ -118,17 +106,17 @@ $('.btn_comprar').eq(1).click(async function() {
     // Crea la orden en tu backend, enviando los IDs
     let respuesta = await crear_orden(productosSeleccionados);
     if (respuesta && respuesta.id) {
-        // ...renderiza el botón de PayPal como ya tienes...
+        // 2. Captura la orden automáticamente
+        let resultado = await capturar_orden(respuesta.id);
+
+        // 3. Muestra el resultado al usuario
+        if (resultado && resultado.status === "COMPLETED") {
+            alert("¡Pago realizado y orden capturada con éxito!");
+            // Aquí puedes actualizar la interfaz o registrar la compra
+        } else {
+            alert("No se pudo capturar la orden de PayPal");
+        }
     } else {
         alert("No se pudo crear la orden de PayPal");
     }
 });
-
-// Modifica la función crear_orden para aceptar IDs
-async function crear_orden(productos) {
-    let respuesta = await server_paypal({
-        accion: 0,
-        productos: productos // Envía los IDs al backend
-    });
-    return respuesta.resultado;
-}

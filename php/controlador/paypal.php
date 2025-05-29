@@ -14,7 +14,7 @@ $respuesta_servidor = new stdClass();
 
 if ($clientejson->accion == 0) {
     $respuesta_servidor->resultado = crear_orden($clientejson);
-} elseif ($clcientejson->accion == 1) {
+} elseif ($clientejson->accion == 1) {
     $respuesta_servidor->resultado = capturar_orden($clientejson);
 }
 
@@ -77,13 +77,13 @@ function crear_orden($valores)
 function capturar_orden($valores)
 {
 
-    $clientId = 'TU_CLIENT_ID'; // Usa tus credenciales reales
-    $clientSecret = 'TU_CLIENT_SECRET';
+    $clientId = 'AYlYNaZUo1E3XGzCN5yM0ZjOqWRC4d0cZdEiuTxv361V-Ks00ezEbCjNTkawjTyP9W6laPt0QMgDRMqB'; // Usa tus credenciales reales
+    $clientSecret = 'ENLfRusRSug6S-fPijC9WEHm0DkgkeyNeyBitAuSr_W5GMfMU1Jep9fitCujFtR_COLfJpd6YeDExRT0';
 
     $environment = new \PayPalCheckoutSdk\Core\SandboxEnvironment($clientId, $clientSecret);
     $client = new \PayPalCheckoutSdk\Core\PayPalHttpClient($environment);
 
-    $request = new \PayPalCheckoutSdk\Orders\OrdersCaptureRequest($valores->orderID);
+    $request = new \PayPalCheckoutSdk\Orders\OrdersCaptureRequest($valores->ordenID);
     $request->prefer('return=representation');
 
     try {
