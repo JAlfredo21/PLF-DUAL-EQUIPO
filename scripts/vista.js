@@ -9,7 +9,7 @@ function server_vista(model) {
             success: function (response) {
                 try {
                     resolve(JSON.parse(response))
-                    console.log(JSON.parse(response))
+                    //console.log(JSON.parse(response))
                 } catch (error) {
                     reject(error)
                 }
@@ -58,8 +58,4 @@ async function actualizar_datos() {
     } else {
         alert("Error al enviar los datos");
     }
-}
-
-async function pago_cliente() {
-    
 }
