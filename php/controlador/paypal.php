@@ -15,7 +15,8 @@ if ($clientejson->accion == 0) {
 
 print(json_encode($respuesta_servidor));
 
-function crear_orden($valores) {
+function crear_orden($valores)
+{
     require_once("../php/paypal/PayPalHttpClient.php");
     require_once("../php/paypal/SandboxEnvironment.php");
     require_once("../php/paypal/OrdersCreateRequest.php");
@@ -26,7 +27,7 @@ function crear_orden($valores) {
     $environment = new \PayPalCheckoutSdk\Core\SandboxEnvironment($clientId, $clientSecret);
     $client = new \PayPalCheckoutSdk\Core\PayPalHttpClient($environment);
 
-     $monto = floatval($valores->monto);
+    $monto = floatval($valores->monto);
     if ($monto <= 0) {
         return ['error' => 'Monto inválido'];
     }
@@ -35,7 +36,7 @@ function crear_orden($valores) {
     // Aquí puedes agregar más detalles a la orden si es necesario
     $request = new \PayPalCheckoutSdk\Orders\OrdersCreateRequest();
     $request->prefer('return=representation');
-    $request->body([
+    $request->body[[
         'intent' => 'CAPTURE',
         'purchase_units' => [[
             "amount" => [
@@ -43,17 +44,18 @@ function crear_orden($valores) {
                 "value" => $valores->monto
             ]
         ]]
-    ]);
+    ]];
 
     try {
         $response = $client->execute($request);
         return ['id' => $response->result->id];
     } catch (Exception $e) {
         return ['error' => $e->getMessage()];
-    }  
+    }
 }
 
-function capturar_orden($valores) {
+function capturar_orden($valores)
+{
     require_once("../php/paypal/PayPalHttpClient.php");
     require_once("../php/paypal/SandboxEnvironment.php");
     require_once("../php/paypal/ordersCaptureRequest.php");
@@ -74,5 +76,3 @@ function capturar_orden($valores) {
         return ['error' => $e->getMessage()];
     }
 }
-
-?>
