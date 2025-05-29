@@ -21,8 +21,8 @@ function crear_orden($valores)
     require_once("../php/paypal/SandboxEnvironment.php");
     require_once("../php/paypal/OrdersCreateRequest.php");
 
-    $clientId = 'TU_CLIENT_ID'; // Reemplaza con tu Client ID de PayPal
-    $clientSecret = 'TU_CLIENT_SECRET'; // Reemplaza con tu Client Secret de PayPal
+    $clientId = 'AYlYNaZUo1E3XGzCN5yM0ZjOqWRC4d0cZdEiuTxv361V-Ks00ezEbCjNTkawjTyP9W6laPt0QMgDRMqB'; // Reemplaza con tu Client ID de PayPal
+    $clientSecret = 'ENLfRusRSug6S-fPijC9WEHm0DkgkeyNeyBitAuSr_W5GMfMU1Jep9fitCujFtR_COLfJpd6YeDExRT0'; // Reemplaza con tu Client Secret de PayPal
 
     $environment = new \PayPalCheckoutSdk\Core\SandboxEnvironment($clientId, $clientSecret);
     $client = new \PayPalCheckoutSdk\Core\PayPalHttpClient($environment);
