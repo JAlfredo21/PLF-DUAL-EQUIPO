@@ -6,7 +6,8 @@ if (sessionStorage.getItem("log") !== 'true') {
 // Función para cerrar sesión
 function cerrar_sesion() {
     sessionStorage.clear();
-    window.location.href = "login.html";
+    //window.location.href = "login.html";
+    window.location.reload()
 }
 
 // Función para permitir solo admin
