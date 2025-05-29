@@ -9,10 +9,10 @@
     <title>Actualizar Datos</title>
 </head>
 
-<body>
+<body onload="cargar_datos()">
     <header>
         <div class="horizontal-menu">
-            <button class="btn-volver" onclick="window.location.href='vista_cliente.html'">Volver</button>
+            <button class="btn-volver" onclick="validar_salida()">Volver</button>
             <!-- onclick="window.location.href='<?php echo ($es_admin == 1) ? "vista.html" : "vista_cliente.html"; ? -->
             <h2 class="titulo-centro">Actualizar tus Datos</h2>
         </div>
@@ -20,21 +20,22 @@
 
 
     <form method="post">
-        <label>Nuevo nombre:</label>
+        <label>Nombre:</label>
         <input type="text" name="nombre" id="up-nombre" placeholder="Ingrese un nombre" required><br>
-        <label>Nueva contraseña:</label>
+        <label>Contraseña:</label>
         <input type="password" name="contrasenia" id="up-contraseña" placeholder="Ingrese una contraseña" required><br>
-        <label>Nuevo correo:</label>
+        <label>Correo:</label>
         <input type="email" name="correo" id="up-correo" placeholder="Ingrese un correo" required><br>
         <span id="mensaje-success"></span>
         <span id="mensaje-danger"></span><br>
-        <button type="button" value="Actualizar" onclick="actualizar_usuario()">Actualizar</button>
+        <button type="button" value="Actualizar" onclick="validar_formulario()">Actualizar</button>
     </form>
 
 </body>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<!-- <script src="scripts/acceso.js"></script> -->
-<script src="scripts/login.js"></script>
+<script src="scripts/acceso.js"></script>
+<script src="scripts/actualizar_datos.js"></script>
+<!-- <script src="scripts/login.js"></script> -->
 
 </html>
