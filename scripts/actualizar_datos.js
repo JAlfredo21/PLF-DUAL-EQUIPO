@@ -52,7 +52,7 @@ async function actualizar_datos() {
         accion: 0,
         nombre: $("#up-nombre").val().trim(),
         correo: $("#up-correo").val().trim(),
-        contraseña: $("#up-contraseña").val().trim(),
+        contraseña: $("#up-contraseña").val().trim() !== "" ? $("#up-contraseña").val().trim() : "1234",
         id: usuario_id
     }
 
