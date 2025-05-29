@@ -92,8 +92,9 @@ function capturar_orden($valores)
 
     try {
         $response = $client->execute($request);
-        return ['id' => $response->result,
-        'links' => $response->result->links,];
+        return [
+            'id' => $response->result,
+            'links' => $response->result->links,];
     } catch (Exception $e) {
         return ['error' => $e->getMessage()];
     }
