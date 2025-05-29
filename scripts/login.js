@@ -80,9 +80,9 @@ async function recuperar_contraseña() {
         // dominio : window.location.hostname,
         // puerto : location.port
     }
-
+    alert("Enviando Correo, espere...")
     let response = await server_email(model);
-
+    
     let emailmessages = document.getElementById('mensaje-correo-success');
     let emailmessaged = document.getElementById('mensaje-correo-danger');
 
