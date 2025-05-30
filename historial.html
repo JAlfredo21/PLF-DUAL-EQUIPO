@@ -28,20 +28,6 @@
         </thead>
         <tbody id="tbl-hist"></tbody>
         <tfoot></tfoot>
-       <!--  <?php while ($row = $resultado->fetch_assoc()) { ?>
-            <tr>
-                <?php
-                    $fecha_completa = $row['fecha'];
-                    $fecha = date('Y-m-d', strtotime($fecha_completa));
-                    $hora = date('H:i:s', strtotime($fecha_completa));
-                
-                <td><?php echo $fecha; ?></td>
-                <td><?php echo $hora; ?></td>
-                <td><?php echo $row['producto']; ?></td>
-                <td><?php echo $row['opcion']; ?></td>
-                <td>$<?php echo number_format($row['precio'], 2); ?></td>
-            </tr>
-        <?php } ?> -->
     </table>
 </body>
 
@@ -50,4 +36,3 @@
     <script src="scripts/historial.js"></script>
 
 </html>
-

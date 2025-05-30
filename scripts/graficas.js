@@ -37,9 +37,6 @@ async function consultar_datos() {
     let server = await server_grafica(model);
     let datos = server.resultado;
 
-    // Filtrar solo compras del usuario logueado
-    //sconst datosUsuario = datos.filter(item => item.usuario_id == usuario_id);
-
     const conteoProductos = {};
 
     datos.forEach(item => {
@@ -88,19 +85,7 @@ async function consultar_datos() {
         }
     });
 
-    /* // Grafica de barras
-    // Paso 1: Contar frecuencia de cada producto_id
-    const usuario = {};
-
-    datos.forEach(item => {
-        const nombreUsuario = item.usuario;
-        usuario[nombreUsuario] = (usuario[nombreUsuario] || 0) + 1;
-    });
-
-    // Paso 2: Preparar etiquetas (IDs de productos) y valores (cantidad vendida)
-    const etiquetasUsuarios = Object.keys(usuario);
-    const valoresUsuarios = Object.values(usuario); 
- */
+    // Grafica de pastel
     const colores = [
         "rgba(255, 99, 132, 0.6)",
         "rgba(54, 162, 235, 0.6)",

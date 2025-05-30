@@ -1,6 +1,5 @@
 sessionStorage.clear();
-//sessionStorage.getItem("log")
-//sessionStorage.getItem("rol")
+
 let respuesta = ""
 function server_login(model) {
     return new Promise((resolve, reject) => {
