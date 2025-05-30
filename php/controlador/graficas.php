@@ -25,7 +25,21 @@ date_default_timezone_set('America/Mexico_City');    /* Especificamos la zona ho
                 WHERE 
                     DATE(fecha) BETWEEN '$valores->f_inicio' 
                     AND '$valores->f_fin'
-                    AND venta.usuario_id = '$valores->usuario_id'";
+                    AND venta.usuario_id = '$valores->usuario_id'
+                    
+                UNION ALL
+
+                SELECT
+                    DATE(o.fecha) AS fecha,
+                    p.nombre AS producto,
+                    p.precio AS precio
+                FROM orden o
+                INNER JOIN producto p ON p.id = o.producto_id
+                WHERE 
+                    DATE(o.fecha) BETWEEN '$valores->f_inicio' 
+                    AND '$valores->f_fin'
+                    AND o.usuario_id = '$valores->usuario_id'
+            ";
         $query = mysqli_query($con, $sql);
 
         $array = array();
