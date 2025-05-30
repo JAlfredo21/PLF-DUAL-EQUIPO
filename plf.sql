@@ -1,7 +1,7 @@
 /*
  Navicat Premium Dump SQL
 
- Source Server         : Mysql
+ Source Server         : plf
  Source Server Type    : MySQL
  Source Server Version : 80404 (8.4.4)
  Source Host           : localhost:3306
@@ -11,11 +11,43 @@
  Target Server Version : 80404 (8.4.4)
  File Encoding         : 65001
 
- Date: 26/05/2025 21:43:23
+ Date: 30/05/2025 17:12:24
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for orden
+-- ----------------------------
+DROP TABLE IF EXISTS `orden`;
+CREATE TABLE `orden`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `paypal_id` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `estatus` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `monto` decimal(10, 0) NOT NULL,
+  `moneda` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
+  `usuario_id` int NOT NULL,
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `producto_id` int NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_orden_usuario`(`usuario_id` ASC) USING BTREE,
+  INDEX `fk_orden_producto`(`producto_id` ASC) USING BTREE,
+  CONSTRAINT `fk_orden_producto` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `fk_orden_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_spanish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of orden
+-- ----------------------------
+INSERT INTO `orden` VALUES (1, '18X903004J618412H', 'COMPLETED', 17, 'MXN', 14, '2025-05-29 19:09:28', 9);
+INSERT INTO `orden` VALUES (2, '94T75426T5211292X', 'COMPLETED', 19, 'MXN', 14, '2025-05-29 20:18:38', 9);
+INSERT INTO `orden` VALUES (3, '2JK22499VH365643G', 'COMPLETED', 19, 'MXN', 14, '2025-05-29 20:26:35', 4);
+INSERT INTO `orden` VALUES (4, '68868203H00631254', 'COMPLETED', 20, 'MXN', 14, '2025-05-29 20:34:29', 7);
+INSERT INTO `orden` VALUES (5, '5TE69832E31697644', 'COMPLETED', 22, 'MXN', 14, '2025-05-29 21:10:51', 1);
+INSERT INTO `orden` VALUES (6, '8RY58239MC3010535', 'COMPLETED', 19, 'MXN', 14, '2025-05-29 21:11:34', 9);
+INSERT INTO `orden` VALUES (7, '58G026634X801362W', 'COMPLETED', 20, 'MXN', 14, '2025-05-29 21:12:49', 4);
+INSERT INTO `orden` VALUES (8, '9E168075LV0518525', 'COMPLETED', 15, 'MXN', 14, '2025-05-29 21:30:42', 8);
 
 -- ----------------------------
 -- Table structure for producto
@@ -27,19 +59,19 @@ CREATE TABLE `producto`  (
   `precio` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_es_0900_ai_ci NOT NULL,
   `cantidad` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_es_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_es_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of producto
 -- ----------------------------
 INSERT INTO `producto` VALUES (1, 'Fanta', '17', 5);
-INSERT INTO `producto` VALUES (2, 'Takis', '19', 12);
+INSERT INTO `producto` VALUES (2, 'Tacos', '19', 12);
 INSERT INTO `producto` VALUES (3, 'Power', '20', 5);
 INSERT INTO `producto` VALUES (4, 'Cocos', '20', 10);
 INSERT INTO `producto` VALUES (5, 'Maria', '20', 8);
 INSERT INTO `producto` VALUES (6, 'Coca', '22', 9);
 INSERT INTO `producto` VALUES (7, 'Pepsi', '21', 6);
-INSERT INTO `producto` VALUES (8, 'Pera', '13', 2);
+INSERT INTO `producto` VALUES (8, 'Jamaica', '15', 2);
 INSERT INTO `producto` VALUES (9, 'Agua', '10', 16);
 
 -- ----------------------------
@@ -51,24 +83,23 @@ CREATE TABLE `usuario`  (
   `nombre` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
   `correo` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
   `contrasenia` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
-  `token` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NULL,
-  `token_expiracion` datetime NULL DEFAULT NULL,
   `registro` datetime NOT NULL,
   `rol` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_spanish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of usuario
 -- ----------------------------
-INSERT INTO `usuario` VALUES (5, 'Angel', 'miguelvera3094@gmail.com', '$2y$10$OLxe3VFUBr5upBdyczVdoO3g.kBrHk1EkQwNPK6v8i3xRMUd4c5Vi', NULL, NULL, '2025-04-13 17:07:44', 'admin');
-INSERT INTO `usuario` VALUES (6, 'Norberto', 'angel@gmail.com', '$2y$10$2aNb0bB5fT9z6N9oN1ZBJeJ56i2460CiQtEtw2rKr5BalMJzq.1RO', NULL, NULL, '2025-04-13 17:09:36', 'user');
-INSERT INTO `usuario` VALUES (7, 'Pedro', 'miguel@gmail.com', '$2y$10$Fpn1r7LG3Y8NYrlu30sG1eNuEZCFM7b7.B9v0E06pbObP3c/qcnxW', NULL, NULL, '2025-04-13 17:17:28', 'user');
-INSERT INTO `usuario` VALUES (8, 'Roberto', 'miguel@gmail.com', '$2y$10$fFvQNVHsEHjtoAjR0ozzrutQV8qitLUzZDG3pTQmPhMYzlo3bjni2', NULL, NULL, '2025-04-13 17:18:15', 'user');
-INSERT INTO `usuario` VALUES (9, 'Carlos', 'miguel@gmail.com', '$2y$10$S7e2w2H.a6zm1hwgXTGkWOqF9p6bPsLGLxqn3pKotYpH5p0muZeOa', NULL, NULL, '2025-04-13 17:21:04', 'user');
-INSERT INTO `usuario` VALUES (10, 'Rodrigo', 'rodrigo@gmail.com', '$2y$10$uViCkEs.BUVP8r7m4ogaKurjIjzxMNuw3HFT24tRGA3vlc5UdzcvC', NULL, NULL, '2025-04-13 17:24:39', 'user');
-INSERT INTO `usuario` VALUES (11, 'luisa', 'luisa@gmail.com', '$2y$10$IscQUgL0jby1R/Qc1uzAsuWOWjRyVDuviB3goKsqgTl5uEfHhlWaC', NULL, NULL, '2025-05-25 10:40:51', 'user');
-INSERT INTO `usuario` VALUES (12, 'luis', 'luis@gmail.com', '$2y$10$JD0gQgSlZF0Oxg2zOnBnWe4oOdaRvo8ir85C3cPnRsQCTjknH/h.G', NULL, NULL, '2025-05-25 11:26:27', 'user');
+INSERT INTO `usuario` VALUES (5, 'Angel', 'miguelvera3094@gmail.com', '$2y$10$OLxe3VFUBr5upBdyczVdoO3g.kBrHk1EkQwNPK6v8i3xRMUd4c5Vi', '2025-04-13 17:07:44', 'admin');
+INSERT INTO `usuario` VALUES (6, 'Norberto', 'angel@gmail.com', '$2y$10$2aNb0bB5fT9z6N9oN1ZBJeJ56i2460CiQtEtw2rKr5BalMJzq.1RO', '2025-04-13 17:09:36', 'user');
+INSERT INTO `usuario` VALUES (7, 'Pedro', 'miguel@gmail.com', '$2y$10$Fpn1r7LG3Y8NYrlu30sG1eNuEZCFM7b7.B9v0E06pbObP3c/qcnxW', '2025-04-13 17:17:28', 'user');
+INSERT INTO `usuario` VALUES (8, 'Roberto', 'miguel@gmail.com', '$2y$10$fFvQNVHsEHjtoAjR0ozzrutQV8qitLUzZDG3pTQmPhMYzlo3bjni2', '2025-04-13 17:18:15', 'user');
+INSERT INTO `usuario` VALUES (9, 'Carlos', 'miguel@gmail.com', '$2y$10$S7e2w2H.a6zm1hwgXTGkWOqF9p6bPsLGLxqn3pKotYpH5p0muZeOa', '2025-04-13 17:21:04', 'user');
+INSERT INTO `usuario` VALUES (10, 'Rodrigo', 'rodrigo@gmail.com', '$2y$10$uViCkEs.BUVP8r7m4ogaKurjIjzxMNuw3HFT24tRGA3vlc5UdzcvC', '2025-04-13 17:24:39', 'user');
+INSERT INTO `usuario` VALUES (11, 'luisa', 'luisa@gmail.com', '$2y$10$IscQUgL0jby1R/Qc1uzAsuWOWjRyVDuviB3goKsqgTl5uEfHhlWaC', '2025-05-25 10:40:51', 'user');
+INSERT INTO `usuario` VALUES (12, 'luis', 'luis@gmail.com', '$2y$10$JD0gQgSlZF0Oxg2zOnBnWe4oOdaRvo8ir85C3cPnRsQCTjknH/h.G', '2025-05-25 11:26:27', 'user');
+INSERT INTO `usuario` VALUES (14, 'Janny', 'janny.garcia703@gmail.com', '$2y$10$SAnmWzHNsZerq3zVTBVCVO209CLARhf.ujGInRgotBJG3xZeDOPOK', '2025-05-27 15:15:11', 'user');
 
 -- ----------------------------
 -- Table structure for venta
@@ -84,7 +115,7 @@ CREATE TABLE `venta`  (
   INDEX `fk_usuario`(`usuario_id` ASC) USING BTREE,
   CONSTRAINT `fk_producto` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 160 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_es_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 181 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_es_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of venta
@@ -232,5 +263,26 @@ INSERT INTO `venta` VALUES (156, '2025-06-06 00:00:00', 9, 9);
 INSERT INTO `venta` VALUES (157, '2025-06-07 00:00:00', 9, 10);
 INSERT INTO `venta` VALUES (158, '2025-06-08 00:00:00', 9, 11);
 INSERT INTO `venta` VALUES (159, '2025-06-09 00:00:00', 9, 12);
+INSERT INTO `venta` VALUES (160, '2025-05-27 16:21:35', 9, 14);
+INSERT INTO `venta` VALUES (161, '2025-05-28 22:55:20', 7, 14);
+INSERT INTO `venta` VALUES (162, '2025-03-28 22:55:20', 9, 14);
+INSERT INTO `venta` VALUES (163, '2025-04-01 14:01:33', 9, 14);
+INSERT INTO `venta` VALUES (164, '2025-05-22 13:01:06', 7, 14);
+INSERT INTO `venta` VALUES (165, '2025-05-28 11:01:22', 9, 14);
+INSERT INTO `venta` VALUES (166, '2025-04-01 14:27:00', 9, 14);
+INSERT INTO `venta` VALUES (167, '2025-03-01 15:01:21', 8, 14);
+INSERT INTO `venta` VALUES (168, '2025-02-01 11:01:37', 9, 14);
+INSERT INTO `venta` VALUES (169, '2025-01-01 09:01:33', 8, 14);
+INSERT INTO `venta` VALUES (170, '2025-01-01 09:01:17', 9, 14);
+INSERT INTO `venta` VALUES (171, '2025-02-01 10:06:01', 9, 14);
+INSERT INTO `venta` VALUES (172, '2025-04-01 17:01:20', 6, 14);
+INSERT INTO `venta` VALUES (173, '2025-03-01 14:01:55', 9, 14);
+INSERT INTO `venta` VALUES (174, '2025-05-01 17:07:37', 9, 14);
+INSERT INTO `venta` VALUES (175, '2025-05-01 17:17:23', 6, 14);
+INSERT INTO `venta` VALUES (176, '2025-04-11 14:45:33', 9, 14);
+INSERT INTO `venta` VALUES (177, '2025-02-21 12:00:03', 7, 14);
+INSERT INTO `venta` VALUES (178, '2025-01-10 11:11:33', 9, 14);
+INSERT INTO `venta` VALUES (179, '2025-05-28 12:11:02', 9, 14);
+INSERT INTO `venta` VALUES (180, '2025-05-29 21:54:07', 7, 14);
 
 SET FOREIGN_KEY_CHECKS = 1;
