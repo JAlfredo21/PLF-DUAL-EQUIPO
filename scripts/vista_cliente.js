@@ -68,63 +68,18 @@ async function crear_orden(productos) {
 }
 
 async function capturar_orden(ordenId) {
+    let user = JSON.parse(sessionStorage.getItem("result"));
+    let usuario_id = user.resultado[0]; 
     let respuesta = await server_paypal({
         accion: 1,
-        ordenId: ordenId
+        ordenId: ordenId,
+        usuario_id: usuario_id // Envía el ID del usuario al backend
     });
-
-    //console.log(respuesta);
-    // let resultado = respuesta.resultado ? respuesta.resultado : respuesta;
+    
     return respuesta.resultado;
-    /* if (resultado && resultado.status === "COMPLETED") {
-        alert("¡Pago realizado y orden capturada con éxito!");
-        // Aquí puedes registrar la compra en tu sistema o actualizar la interfaz
-    } else {
-        alert("No se pudo capturar la orden de PayPal");
-    } */
-    /* if (server.resultado) {
-        // Aquí puedes manejar la respuesta de la captura de la orden
-        console.log("Orden capturada:", server.resultado);
-        return server.resultado;
-    } else {
-        alert("Error al capturar la orden de PayPal");
-    } */
+    //console.log(respuesta);
 }
 
-/* $(document).ready(function () {
-    solo_user();
-    consultar_producto();
-    $('.btn_comprar').eq(1).click(async function () {
-    // Obtén los IDs de los productos seleccionados
-    console.log("Click en btn_comprar");
-    let productosSeleccionados = [];
-    $('input[name="producto_id[]"]:checked').each(function () {
-        productosSeleccionados.push($(this).val());
-    });
-    console.log("Productos seleccionados:", productosSeleccionados);
-    if (productosSeleccionados.length === 0) {
-        alert("Selecciona al menos un producto");
-        return;
-    }
-
-    // Crea la orden en tu backend, enviando los IDs
-    let respuesta = await crear_orden(productosSeleccionados);
-    console.log("Respuesta crear_orden:", respuesta);
-
-    if (respuesta && respuesta.id) {
-        let resultado = await capturar_orden(respuesta.id);
-        console.log("Resultado capturar_orden:", resultado);
-
-        if (resultado && resultado.status === "COMPLETED") {
-            alert("¡Pago realizado y orden capturada con éxito!");
-        } else {
-            alert("No se pudo capturar la orden de PayPal");
-        }
-    } else {
-        alert("No se pudo crear la orden de PayPal");
-    }
-});
-}) */
 
 $(document).ready(function () {
     // Inicializaciones
@@ -154,33 +109,28 @@ $(document).ready(function () {
             }
         }
 
-        /* if (respuesta && respuesta.id) {
-            // Si por alguna razón no hay links, puedes intentar capturar (no recomendado)
-            const resultado = await capturar_orden(respuesta.id);
-
-            if (resultado && resultado.status === "COMPLETED") {
-                alert("¡Compra completada con éxito!");
-            } else {
-                alert("No se pudo capturar la orden.");
-            }
-        } else {
-            alert("No se pudo crear la orden.");
-        } */
-
     });
 
 });
 
 $(document).ready(async function () {
     const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
+    const token = urlParams.get('token') || urlParams.get('paymentId');
     if (token) {
         const resultado = await capturar_orden(token);
+        console.log("Resultado de capturar_orden:", resultado);
         if (resultado && resultado.status === "COMPLETED") {
             alert("¡Pago realizado y orden capturada con éxito!");
         } else {
             alert("No se pudo capturar la orden de PayPal");
         }
+    }
+});
+
+$(document).ready(function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('cancel')) {
+        alert("El pago fue cancelado.");
     }
 });
 

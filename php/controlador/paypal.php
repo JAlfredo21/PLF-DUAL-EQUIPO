@@ -19,6 +19,7 @@ if ($clientejson->accion == 0) {
 }
 
 print(json_encode($respuesta_servidor));
+//return json_decode(json_encode($result), true);
 
 
 function crear_orden($valores)
@@ -66,13 +67,14 @@ function crear_orden($valores)
         ]],
         'application_context' => [
             'return_url' => 'https://localhost/PLF-DUAL-EQUIPO/vista_cliente.html', // URL de retorno después del pago
-            'cancel_url' => 'https://localhost/PLF-DUAL-EQUIPO/vista_cliente.htmls' // URL de cancelación del pago
+            'cancel_url' => 'https://localhost/PLF-DUAL-EQUIPO/vista_cliente.htmls?cancel=true' // URL de cancelación del pago
         ]
     ];
 
     try {
         $response = $client->execute($request);
-        return ['id' => $response->result->id];
+        return ['id' => $response->result->id,
+                'links' => $response->result->links,];
     } catch (Exception $e) {
         return ['error' => $e->getMessage()];
     }
@@ -80,6 +82,7 @@ function crear_orden($valores)
 
 function capturar_orden($valores)
 {
+    include("../conexion.php");
 
     $clientId = 'AYlYNaZUo1E3XGzCN5yM0ZjOqWRC4d0cZdEiuTxv361V-Ks00ezEbCjNTkawjTyP9W6laPt0QMgDRMqB'; // Usa tus credenciales reales
     $clientSecret = 'ENLfRusRSug6S-fPijC9WEHm0DkgkeyNeyBitAuSr_W5GMfMU1Jep9fitCujFtR_COLfJpd6YeDExRT0';
@@ -87,14 +90,37 @@ function capturar_orden($valores)
     $environment = new \PayPalCheckoutSdk\Core\SandboxEnvironment($clientId, $clientSecret);
     $client = new \PayPalCheckoutSdk\Core\PayPalHttpClient($environment);
 
-    $request = new \PayPalCheckoutSdk\Orders\OrdersCaptureRequest($valores->ordenId);
+    $ordenId = $valores->ordenId;
+    $usuario_id = isset($valores->usuario_id) ? $valores->usuario_id : null;
+    if (!$usuario_id) {
+        return ['error' => 'Usuario ID no proporcionado'];
+    }
+    $request = new \PayPalCheckoutSdk\Orders\OrdersCaptureRequest($ordenId);
     $request->prefer('return=representation');
 
     try {
         $response = $client->execute($request);
+        $result = $response->result;
+
+        if ($result->status === 'COMPLETED') {
+            $paypal_id = $result->id;
+            $status = $result->status;
+            $monto = $result->purchase_units[0]->amount->value;
+            $moneda = $result->purchase_units[0]->amount->currency_code;
+            //$usuario_id = $result->order_id; // Asegúrate de que este campo sea correcto
+            $fecha = date('Y-m-d H:i:s');
+
+            $stmt = $con->prepare("INSERT INTO orden (paypal_id, estatus, monto, moneda, usuario_id, fecha) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssdsis", $paypal_id, $status, $monto, $moneda, $usuario_id, $fecha);
+            $stmt->execute();
+            $stmt->close();
+        }
+
         return [
-            'id' => $response->result,
-            'links' => $response->result->links,];
+            'id' => $result->id,
+            'status' => $result->status,
+            'links' => $result->links,
+            'purchase_units' => $result->purchase_units,];
     } catch (Exception $e) {
         return ['error' => $e->getMessage()];
     }
