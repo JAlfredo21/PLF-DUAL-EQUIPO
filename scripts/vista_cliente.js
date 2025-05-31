@@ -122,7 +122,7 @@ $(document).ready(async function () {
     const token = urlParams.get('token') || urlParams.get('paymentId');
     if (token) {
         const resultado = await capturar_orden(token);
-        console.log("Resultado de capturar_orden:", resultado);
+        // console.log("Resultado de capturar_orden:", resultado);
         if (resultado && resultado.status === "COMPLETED") {
             alert("¡Pago realizado y orden capturada con éxito!");
         } else {
