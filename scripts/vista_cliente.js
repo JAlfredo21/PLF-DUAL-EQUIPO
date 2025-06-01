@@ -84,15 +84,81 @@ async function capturar_orden(ordenId, productos = null) {
     //console.log(respuesta);
 }
 
+function checkInternetConnection() {
+    return navigator.onLine;
+}
+
+// Función para verificar la conexión con el ESP32
+function checkEsp32Connection() {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "http://IP_DEL_ESP32/tu_endpoint",  // URL del endpoint del ESP32
+            type: "POST",
+            data: JSON.stringify({ping: "test"}),  // Lo que el ESP32 espera recibir
+            contentType: "application/json",
+            timeout: 3000,  // Timeout de 3 segundos
+            success: function(response) {
+                resolve(true);  // ESP32 respondió correctamente
+            },
+            error: function(xhr, status, error) {
+                resolve(false);  // No respondió o hubo error
+            }
+        });
+    });
+}
+
+// Función para verificar la conexión completa (Internet y ESP32)
+async function verificarConexionCompleta() {
+    // Verificamos la conexión a Internet
+    if (!checkInternetConnection()) {
+        $('#mjs-conexion').text("No tienes conexión a Internet.").show().css("color", "brown");
+        $('#btn-paypal').prop('disabled', true);  // Deshabilitar el botón de compra
+        return false;  // Si no hay Internet, no procedemos
+    }
+
+    // Verificamos la conexión con el ESP32
+    let esp32Ok = await checkEsp32Connection();
+    if (!esp32Ok) {
+        $('#mjs-conexion').text("No se pudo conectar con el dispositivo ESP32. Intenta más tarde.").show().css("color", "brown");
+        $('#btn-paypal').prop('disabled', true);  // Deshabilitar el botón de compra
+        return false;  // Si el ESP32 no responde, no dejamos proceder
+    }
+
+    // Si todo está bien, habilitamos el botón y ocultamos el mensaje
+    $('#mjs-conexion').hide();  // Ocultamos el mensaje si está todo bien
+    $('#btn-paypal').prop('disabled', false);  // Habilitar el botón de compra
+    return true;
+}
+
 
 $(document).ready(function () {
     // Inicializaciones
     // solo_user();
+    verificarConexionCompleta();
     consultar_producto();
+
+    window.addEventListener('online', async function() {
+        $('#mjs-conexion').text("Conexión restaurada.").show().css("color", "green");
+        await verificarConexionCompleta();  // Verificar de nuevo la conexión
+    });
+
+    window.addEventListener('offline', function() {
+        $('#mjs-conexion').text("Has perdido la conexión a Internet.").show().css("color", "brown");
+        $('#btn-paypal').prop('disabled', true);  // Deshabilitar el botón
+    });
+
+    // También chequeamos cada 30 segundos la conexión al ESP32 sin recargar la página
+    setInterval(async function() {
+        await verificarConexionCompleta();  // Verificar cada 30 segundos
+    }, 30000);  // 30 segundos
 
     // Manejo del botón Comprar con PayPal
     $('#btn-paypal').on('click', async function () {
         //console.log("Botón de PayPal clickeado");
+        let conexionOk = await verificarConexionCompleta();  // Verificar conexión antes de proceder
+        if (!conexionOk) {
+            return;  // Si no hay conexión, no procedemos
+        }
 
         // Obtener productos seleccionados
         let productosSeleccionados = [];
