@@ -49,7 +49,8 @@ body {
 }
 
 .form_buscador {
-    background-color: #f0f0f0; /* Gris claro */
+    background-color: #f0f0f0;
+    /* Gris claro */
     padding: 20px;
     border-radius: 8px;
     text-align: center;
@@ -72,7 +73,8 @@ body {
 }
 
 .btn_buscar {
-    background-color: #3498db; /* Azul */
+    background-color: #3498db;
+    /* Azul */
     color: #ffffff;
     border: none;
     padding: 8px 15px;
@@ -82,24 +84,42 @@ body {
 }
 
 .btn_buscar:hover {
-    background-color: #2980b9; /* Azul más oscuro */
+    background-color: #2980b9;
+    /* Azul más oscuro */
 }
 
 .graficos {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 10px; 
+    gap: 1rem;
+    /* o 10px, escoge uno */
 }
 
-canvas {
-    max-width: 300px;
-    max-height: 300px;
-    margin: auto;
+/* .grafica {
+    position: relative;
+    transition: all 0.4s ease;
+    height: 300px;
+    /* Tamaño normal 
+} */
+.grafica {
+    transition: all 0.4s ease-in-out;
+    width: 100%;
+    height: 400px;
 }
 
+.grafica.expandida {
+    width: 100%;
+    height: 600px;
+    z-index: 10;
+}
 
+.grafica.oculta {
+   display:none;
+}
 
-
-
-
+.grafica canvas {
+    width: 100% !important;
+    height: 100% !important;
+}

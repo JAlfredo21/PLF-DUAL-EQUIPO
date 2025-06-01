@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="assets/css/graficas.css">
     <link rel="icon" type="image/png" href="assets/images/VMS.png" sizes="32x32">
 </head>
-
 <body onload="solo_admin();">
 
     <header>
@@ -27,9 +26,15 @@
     </form>
 
     <div class="graficos">
-        <canvas id="grafica-barras"></canvas>
-        <canvas id="grafica-pastel"></canvas>
-        <canvas id="grafica-lineal"></canvas>
+        <div class="grafica" id="contenedor-barras">
+            <canvas id="grafica-barras"></canvas>
+        </div>
+        <div class="grafica" id="contenedor-pastel">
+            <canvas id="grafica-pastel"></canvas>
+        </div>
+        <div class="grafica" id="contenedor-lineal">
+            <canvas id="grafica-lineal"></canvas>
+        </div>
     </div>
 
 </body>

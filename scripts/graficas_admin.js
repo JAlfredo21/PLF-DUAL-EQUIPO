@@ -17,6 +17,76 @@ function server_graficas_admin(model) {
         })
     })
 }
+function expandGraph(graphId) {
+    const graphContainer = document.getElementById(graphId);
+    const allGraphs = document.querySelectorAll('.grafica');
+
+    if (graphContainer.classList.contains('expanded')) {
+        // Ya está expandida: reducirla
+        graphContainer.classList.remove('expanded');
+        graphContainer.querySelector('.canvas-container').style.width = '100%';
+        graphContainer.querySelector('canvas').style.height = '400px';
+
+        // Mostrar todas las gráficas nuevamente
+        allGraphs.forEach(graph => {
+            graph.style.display = 'block'; // Restauramos el display
+        });
+
+        // Ajustar tamaño
+        if (graphId === 'grafica-productos' && chart1) chart1.resize();
+        if (graphId === 'grafica-usuarios' && chart2) chart2.resize();
+        if (graphId === 'grafica-fechas' && chart3) chart3.resize();
+    } else {
+        // Expandir la gráfica
+        graphContainer.classList.add('expanded');
+        graphContainer.querySelector('.canvas-container').style.width = '100%';
+        graphContainer.querySelector('canvas').style.height = '600px';
+
+        // Ocultar las otras gráficas
+        allGraphs.forEach(graph => {
+            if (graph.id !== graphId) {
+                graph.style.display = 'none';
+            }
+        });
+
+        // Ajustar tamaño
+        if (graphId === 'grafica-productos' && chart1) chart1.resize();
+        if (graphId === 'grafica-usuarios' && chart2) chart2.resize();
+        if (graphId === 'grafica-fechas' && chart3) chart3.resize();
+    }
+}
+
+
+document.querySelectorAll('.grafica').forEach((grafica) => {
+    grafica.addEventListener('click', () => {
+        const yaExpandida = grafica.classList.contains('expandida');
+
+        // Resetear todas las gráficas
+        document.querySelectorAll('.grafica').forEach((g) => {
+            g.classList.remove('expandida', 'oculta');
+            g.style.display = 'block'; // aseguramos visibilidad
+        });
+
+        if (!yaExpandida) {
+            // Expandir la actual y ocultar las otras
+            grafica.classList.add('expandida');
+
+            document.querySelectorAll('.grafica').forEach((g) => {
+                if (g !== grafica) {
+                    g.classList.add('oculta');
+                    g.style.display = 'none'; // ocultar correctamente
+                }
+            });
+        }
+
+        // Redibujar gráficas
+        setTimeout(() => {
+            Object.values(Chart.instances).forEach(chart => chart.resize());
+        }, 450); // tiempo para que termine la animación
+    });
+});
+
+
 
 let graficaBarras = null
 let graficaPastel = null
@@ -62,6 +132,7 @@ async function consultar_datos() {
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 y: {
                     beginAtZero: true,
@@ -125,6 +196,7 @@ async function consultar_datos() {
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
                 legend: {
                     position: 'right',
@@ -174,6 +246,7 @@ async function consultar_datos() {
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 x: {
                     title: {
@@ -202,3 +275,4 @@ async function consultar_datos() {
     });
 
 }
+
