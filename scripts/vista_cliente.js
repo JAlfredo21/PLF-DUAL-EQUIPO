@@ -87,7 +87,7 @@ async function capturar_orden(ordenId, productos = null) {
 
 $(document).ready(function () {
     // Inicializaciones
-    solo_user();
+    // solo_user();
     consultar_producto();
 
     // Manejo del botón Comprar con PayPal
@@ -138,7 +138,7 @@ $(document).ready(function () {
     }
 });
 
-let user = JSON.parse(sessionStorage.getItem("result"));
+/* let user = JSON.parse(sessionStorage.getItem("result"));
 let user_name = user.resultado[1];
 
-$("#title").text("Bienvenido "+user_name)
+$("#title").text("Bienvenido "+user_name) */
