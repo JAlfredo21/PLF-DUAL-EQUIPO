@@ -62,7 +62,9 @@ async function consultar_producto() {
 async function crear_orden(productos) {
     let respuesta = await server_paypal({
         accion: 0,
-        productos: productos // Envía los IDs al backend
+        productos: productos,
+        dominio: window.location.hostname,
+        puerto: window.location.port,
     });
     return respuesta.resultado;
 }
@@ -78,6 +80,7 @@ async function capturar_orden(ordenId, productos = null) {
         ordenId: ordenId,
         usuario_id: usuario_id, // Envía el ID del usuario al backend
         productos: productos
+        
     });
     
     return respuesta.resultado;
