@@ -156,7 +156,7 @@ async function consultar_datos() {
     const conteoUsuarios = {};
 
     datos.forEach(item => {
-        const nombreUsuario = item.usuario;
+        const nombreUsuario = item.producto;
         conteoUsuarios[nombreUsuario] = (conteoUsuarios[nombreUsuario] || 0) + 1;
     });
     // Paso 2: Preparar etiquetas (IDs de productos) y valores (cantidad vendida)
@@ -187,7 +187,7 @@ async function consultar_datos() {
         data: {
             labels: etiquetas2,
             datasets: [{
-                label: "Compras por usuario",
+                label: "Cantidad de productos vedido",
                 data: valores2,
                 backgroundColor: colores,
                 borderColor: "#fff",
@@ -203,7 +203,7 @@ async function consultar_datos() {
                 },
                 title: {
                     display: true,
-                    text: 'Distribución de compras por usuario'
+                    text: 'Distribución de productos vendido'
                 }
             }
         }
