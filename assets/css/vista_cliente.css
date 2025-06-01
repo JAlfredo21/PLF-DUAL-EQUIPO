@@ -107,3 +107,13 @@ form {
 .btn_comprar:hover {
     background-color: #2980b9;
 }
+
+#mjs-conexion {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #f8d7da;  /* Fondo de color rojo suave */
+    border: 1px solid #f5c6cb;  /* Borde rojo suave */
+    border-radius: 5px;
+    margin-top: 10px;
+    display: none;  /* Inicialmente oculto */
+}
