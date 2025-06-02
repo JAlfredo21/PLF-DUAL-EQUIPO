@@ -30,7 +30,7 @@ function consultar_datos($valores)
             FROM `venta`
             INNER JOIN usuario ON usuario.id = venta.usuario_id
             INNER JOIN producto ON producto.id = venta.producto_id
-            order by venta.id;";
+            order by venta.id DESC LIMIT 50;";
     
     $query = mysqli_query($con, $sql);
 

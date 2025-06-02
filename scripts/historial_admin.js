@@ -27,7 +27,6 @@ async function consultar_datos() {
         console.log(element);
         document.getElementById("tbl-hist-info").innerHTML += `
         <tr>
-            <td class="text-center">${element.nombre}</td>
             <td class="text-center">${element.fecha}</td>
             <td class="text-center">${element.hora}</td>
             <td class="text-center">${element.producto}</td>

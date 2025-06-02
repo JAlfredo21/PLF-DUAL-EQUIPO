@@ -47,6 +47,8 @@ function crear_orden($valores)
         return ['error' => 'Monto inválido'];
     }
 
+    $dominio = isset($valores->dominio) ? $valores->dominio : 'localhost';
+    $puerto = isset($valores->puerto) ? $valores->puerto : '';
     // aplicación de las credenciales de PayPal = Default Application
     $clientId = 'AYlYNaZUo1E3XGzCN5yM0ZjOqWRC4d0cZdEiuTxv361V-Ks00ezEbCjNTkawjTyP9W6laPt0QMgDRMqB'; // Reemplaza con tu Client ID de PayPal
     $clientSecret = 'ENLfRusRSug6S-fPijC9WEHm0DkgkeyNeyBitAuSr_W5GMfMU1Jep9fitCujFtR_COLfJpd6YeDExRT0'; // Reemplaza con tu Client Secret de PayPal
@@ -66,8 +68,8 @@ function crear_orden($valores)
             ]
         ]],
         'application_context' => [
-            'return_url' => 'https://localhost/PLF-DUAL-EQUIPO/vista_cliente.html', // URL de retorno después del pago
-            'cancel_url' => 'https://localhost/PLF-DUAL-EQUIPO/vista_cliente.htmls?cancel=true' // URL de cancelación del pago
+            'return_url' => "https://$dominio:$puerto/PLF-DUAL-EQUIPO/vista_cliente.html", // URL de retorno después del pago
+            'cancel_url' => "https://$dominio:$puerto/PLF-DUAL-EQUIPO/vista_cliente.htmls?cancel=true" // URL de cancelación del pago
         ]
     ];
 
