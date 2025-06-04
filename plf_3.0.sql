@@ -11,7 +11,7 @@
  Target Server Version : 80404 (8.4.4)
  File Encoding         : 65001
 
- Date: 01/06/2025 16:35:56
+ Date: 04/06/2025 17:49:59
 */
 
 SET NAMES utf8mb4;
@@ -89,15 +89,8 @@ CREATE TABLE `usuario`  (
 -- Records of usuario
 -- ----------------------------
 INSERT INTO `usuario` VALUES (5, 'Angel', 'miguelvera3094@gmail.com', '$2y$10$9vUGe6KWVo/EnNWA/vbvvOnSOmG6YqbnIQ2bgp3ZyYG1oKWu3GP4K', '2025-04-13 17:07:44', 'admin');
-INSERT INTO `usuario` VALUES (6, 'Norberto', 'angel@gmail.com', '$2y$10$2aNb0bB5fT9z6N9oN1ZBJeJ56i2460CiQtEtw2rKr5BalMJzq.1RO', '2025-04-13 17:09:36', 'user');
-INSERT INTO `usuario` VALUES (7, 'Pedro', 'miguel@gmail.com', '$2y$10$Fpn1r7LG3Y8NYrlu30sG1eNuEZCFM7b7.B9v0E06pbObP3c/qcnxW', '2025-04-13 17:17:28', 'user');
-INSERT INTO `usuario` VALUES (8, 'Roberto', 'miguel@gmail.com', '$2y$10$fFvQNVHsEHjtoAjR0ozzrutQV8qitLUzZDG3pTQmPhMYzlo3bjni2', '2025-04-13 17:18:15', 'user');
-INSERT INTO `usuario` VALUES (9, 'Carlos', 'miguel@gmail.com', '$2y$10$S7e2w2H.a6zm1hwgXTGkWOqF9p6bPsLGLxqn3pKotYpH5p0muZeOa', '2025-04-13 17:21:04', 'user');
-INSERT INTO `usuario` VALUES (10, 'Rodrigo', 'rodrigo@gmail.com', '$2y$10$uViCkEs.BUVP8r7m4ogaKurjIjzxMNuw3HFT24tRGA3vlc5UdzcvC', '2025-04-13 17:24:39', 'user');
-INSERT INTO `usuario` VALUES (11, 'luisa', 'luisa@gmail.com', '$2y$10$IscQUgL0jby1R/Qc1uzAsuWOWjRyVDuviB3goKsqgTl5uEfHhlWaC', '2025-05-25 10:40:51', 'user');
-INSERT INTO `usuario` VALUES (12, 'luis', 'luis@gmail.com', '$2y$10$JD0gQgSlZF0Oxg2zOnBnWe4oOdaRvo8ir85C3cPnRsQCTjknH/h.G', '2025-05-25 11:26:27', 'user');
-INSERT INTO `usuario` VALUES (14, 'Janny', 'janny.garcia703@gmail.com', '$2y$10$TWpM4tRuLJzr313JRSw1MOjVqU/KsmFEhKZOdsu6b5u1r6w/s5rQS', '2025-05-27 15:15:11', 'user');
-INSERT INTO `usuario` VALUES (15, 'Edi', 'laloeduardo123489@gmail.com', '1234', '2025-05-30 22:22:50', 'user');
+INSERT INTO `usuario` VALUES (14, 'Janny', 'janny.garcia703@gmail.com', '$2y$10$TWpM4tRuLJzr313JRSw1MOjVqU/KsmFEhKZOdsu6b5u1r6w/s5rQS', '2025-05-27 15:15:11', 'admin');
+INSERT INTO `usuario` VALUES (15, 'Edi', 'laloeduardo123489@gmail.com', '1234', '2025-05-30 22:22:50', 'admin');
 
 -- ----------------------------
 -- Table structure for venta
@@ -107,12 +100,11 @@ CREATE TABLE `venta`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `fecha` datetime NOT NULL,
   `producto_id` int NOT NULL,
-  `usuario_id` int NOT NULL,
+  `precio` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_producto`(`producto_id` ASC) USING BTREE,
-  INDEX `fk_usuario`(`usuario_id` ASC) USING BTREE,
-  CONSTRAINT `fk_producto` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `fk_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  INDEX `fk_usuario`(`precio` ASC) USING BTREE,
+  CONSTRAINT `fk_producto` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 181 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_es_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
