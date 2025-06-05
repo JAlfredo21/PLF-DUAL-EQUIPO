@@ -8,7 +8,7 @@
     //mysqli_select_db($con,$db);     /* función que accede a la bd, como parametros recibe la conexión y la variable*/
     //mysqli_set_charset($con,"utf8");     /* se especifica que la bd utiliza utf8*/
     $user = "root";
-    $pass= "root";
+    $pass= "78910";
     $server = "localhost";
     $db= "plf";
     $con = mysqli_connect($server, $user, $pass) or die("Error al conectar"); // Conexión a la base de datos
