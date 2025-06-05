@@ -38,6 +38,7 @@
         <table class="tabla-formulario">
             <thead>
                 <tr>
+                    <th></th>
                     <th>Opción</th>
                     <th>Nombre</th>
                     <th>Precio</th>
@@ -46,6 +47,7 @@
             <tbody>
                 <!-- Datos de productos simulados -->
                 <tr>
+                    <td><input type="checkbox" name="producto_id"></td>
                     <td>Opción 1:</td>
                     <td>
                         <input type="hidden" name="id_1">
@@ -56,6 +58,7 @@
                     </td>
                 </tr>
                 <tr>
+                    <td><input type="checkbox" name="producto_id"></td>
                     <td>Opción 2:</td>
                     <td>
                         <input type="hidden" name="id_2">
@@ -66,6 +69,7 @@
                     </td>
                 </tr>
                 <tr>
+                    <td><input type="checkbox" name="producto_id"></td>
                     <td>Opción 3:</td>
                     <td>
                         <input type="hidden" name="id_3">
@@ -76,6 +80,7 @@
                     </td>
                 </tr>
                 <tr>
+                    <td><input type="checkbox" name="producto_id"></td>
                     <td>Opción 4:</td>
                     <td>
                         <input type="hidden" name="id_4">
@@ -86,6 +91,7 @@
                     </td>
                 </tr>
                 <tr>
+                    <td><input type="checkbox" name="producto_id"></td>
                     <td>Opción 5:</td>
                     <td>
                         <input type="hidden" name="id_5">
@@ -99,14 +105,16 @@
         </table>
 
         <div class="boton-centro">
+            <button class="button_form" type="button" onclick="comprar_productos()">Comprar</button>
             <button class="button_form" type="button" onclick="actualizar_datos()">Actualizar</button>
         </div>
     </form>
 
 </body>
      <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-     <script src = " https://www.paypal.com/sdk/js?client-id=SU_ID_DE_CLIENTE"></script>
-     <script src="https://www.paypal.com/sdk/js?client-id=test"></script>
+     <!-- <script src = " https://www.paypal.com/sdk/js?client-id=SU_ID_DE_CLIENTE"></script> -->
+     <!-- <script src="https://www.paypal.com/sdk/js?client-id=test"></script> -->
      <script src="scripts/acceso.js"></script>
      <script src="scripts/vista.js"></script>
+     <!-- <script src="scripts/compra.js"></script> -->
 </html>

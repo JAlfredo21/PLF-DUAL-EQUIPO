@@ -1,4 +1,7 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 header('Content-Type: text/html; charset=UTF-8');    /* Especificamos que se utulizara html con utf8 */
 date_default_timezone_set('America/Mexico_City');    /* Especificamos la zona horaria */
 
@@ -16,14 +19,15 @@ function crear_compra($valores)
 
     $fecha = date('Y-m-d H:i:s'); // Fecha actual
     $productos = $valores->productos; // Array de productos
-    $usuario_id = $valores->usuario_id;
 
-    $sql = "INSERT INTO venta (fecha, usuario_id, producto_id) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO venta (fecha, producto_id, precio) VALUES (?, ?, ?)";
     $stmt = $con->prepare($sql);
 
     $todo_ok = true;
-    foreach ($productos as $producto_id) {
-        $stmt->bind_param("sii", $fecha, $usuario_id, $producto_id);
+    foreach ($productos as $producto) {
+        $producto_id = $producto->id;
+        $precio = $producto->precio;
+        $stmt->bind_param("sii", $fecha, $producto_id, $precio);
         if (!$stmt->execute()) {
             $todo_ok = false;
             break;
