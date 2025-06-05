@@ -21,14 +21,12 @@ function consultar_datos($valores)
     include("../conexion.php");
 
     $sql = "SELECT 
-            usuario.nombre,
             date(venta.fecha) AS fecha,
             time(venta.fecha) AS hora,
             producto.nombre AS producto,
             producto.id,
             producto.precio
             FROM `venta`
-            INNER JOIN usuario ON usuario.id = venta.usuario_id
             INNER JOIN producto ON producto.id = venta.producto_id
             order by venta.id DESC LIMIT 50;";
     
