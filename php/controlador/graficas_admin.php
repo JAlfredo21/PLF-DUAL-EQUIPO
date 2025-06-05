@@ -24,11 +24,9 @@ function consultar_datos($valores)
             SELECT 
             venta.id,
             date(venta.fecha) AS fecha,
-            producto.nombre as producto,
-            usuario.nombre as usuario
+            producto.nombre as producto
             from venta 
             INNER JOIN producto ON producto.id = venta.producto_id
-            INNER JOIN usuario ON usuario.id = venta.usuario_id
             WHERE date(fecha) BETWEEN '$valores->f_inicio' AND '$valores->f_fin'
             ORDER BY venta.id";
     $query = mysqli_query($con, $sql);
