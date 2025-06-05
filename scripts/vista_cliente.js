@@ -89,15 +89,15 @@ async function crear_orden(productos) {
 }
 
 async function capturar_orden(ordenId, productos = null) {
-    let user = JSON.parse(sessionStorage.getItem("result"));
-    let usuario_id = user.resultado[0]; 
+    /* let user = JSON.parse(sessionStorage.getItem("result"));
+    let usuario_id = user.resultado[0]; */
     if (!productos) {
         productos = JSON.parse(sessionStorage.getItem("productos_seleccionados")) || [];
     }
     let respuesta = await server_paypal({
         accion: 1,
         ordenId: ordenId,
-        usuario_id: usuario_id, // Envía el ID del usuario al backend
+        /* usuario_id: usuario_id, // Envía el ID del usuario al backend */
         productos: productos
         
     });

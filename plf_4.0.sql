@@ -11,7 +11,7 @@
  Target Server Version : 80404 (8.4.4)
  File Encoding         : 65001
 
- Date: 04/06/2025 17:49:59
+ Date: 05/06/2025 15:44:31
 */
 
 SET NAMES utf8mb4;
@@ -27,15 +27,14 @@ CREATE TABLE `orden`  (
   `estatus` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
   `monto` decimal(10, 0) NOT NULL,
   `moneda` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci NOT NULL,
-  `usuario_id` int NOT NULL,
+  `usuario_id` int NULL DEFAULT NULL,
   `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `producto_id` int NOT NULL,
+  `producto_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_orden_usuario`(`usuario_id` ASC) USING BTREE,
   INDEX `fk_orden_producto`(`producto_id` ASC) USING BTREE,
-  CONSTRAINT `fk_orden_producto` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `fk_orden_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_spanish_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `fk_orden_producto` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_spanish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of orden
@@ -49,6 +48,7 @@ INSERT INTO `orden` VALUES (6, '8RY58239MC3010535', 'COMPLETED', 19, 'MXN', 14, 
 INSERT INTO `orden` VALUES (7, '58G026634X801362W', 'COMPLETED', 20, 'MXN', 14, '2025-05-29 21:12:49', 4);
 INSERT INTO `orden` VALUES (8, '9E168075LV0518525', 'COMPLETED', 15, 'MXN', 14, '2025-05-29 21:30:42', 2);
 INSERT INTO `orden` VALUES (9, '7D514250TH097161W', 'COMPLETED', 17, 'MXN', 14, '2025-05-30 21:28:44', 1);
+INSERT INTO `orden` VALUES (10, '08H858560R0602615', 'COMPLETED', 20, 'MXN', NULL, '2025-06-05 15:41:24', NULL);
 
 -- ----------------------------
 -- Table structure for producto
@@ -89,7 +89,7 @@ CREATE TABLE `usuario`  (
 -- Records of usuario
 -- ----------------------------
 INSERT INTO `usuario` VALUES (5, 'Angel', 'miguelvera3094@gmail.com', '$2y$10$9vUGe6KWVo/EnNWA/vbvvOnSOmG6YqbnIQ2bgp3ZyYG1oKWu3GP4K', '2025-04-13 17:07:44', 'admin');
-INSERT INTO `usuario` VALUES (14, 'Janny', 'janny.garcia703@gmail.com', '$2y$10$TWpM4tRuLJzr313JRSw1MOjVqU/KsmFEhKZOdsu6b5u1r6w/s5rQS', '2025-05-27 15:15:11', 'admin');
+INSERT INTO `usuario` VALUES (14, 'Janny', 'janny.garcia703@gmail.com', '$2y$10$mPqsiba4oPSmhyvdUvfOG.mT5/1TqDdDhf7RP4mKav6A9.R0X93TG', '2025-05-27 15:15:11', 'admin');
 INSERT INTO `usuario` VALUES (15, 'Edi', 'laloeduardo123489@gmail.com', '1234', '2025-05-30 22:22:50', 'admin');
 
 -- ----------------------------
@@ -105,7 +105,7 @@ CREATE TABLE `venta`  (
   INDEX `fk_producto`(`producto_id` ASC) USING BTREE,
   INDEX `fk_usuario`(`precio` ASC) USING BTREE,
   CONSTRAINT `fk_producto` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 181 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_es_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 184 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_es_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of venta
@@ -274,5 +274,8 @@ INSERT INTO `venta` VALUES (177, '2025-02-21 12:00:03', 4, 14);
 INSERT INTO `venta` VALUES (178, '2025-01-10 11:11:33', 5, 14);
 INSERT INTO `venta` VALUES (179, '2025-05-28 12:11:02', 4, 14);
 INSERT INTO `venta` VALUES (180, '2025-05-29 21:54:07', 3, 14);
+INSERT INTO `venta` VALUES (181, '2025-06-04 20:59:25', 5, 20);
+INSERT INTO `venta` VALUES (182, '2025-06-04 20:59:30', 5, 20);
+INSERT INTO `venta` VALUES (183, '2025-06-05 15:02:50', 1, 17);
 
 SET FOREIGN_KEY_CHECKS = 1;

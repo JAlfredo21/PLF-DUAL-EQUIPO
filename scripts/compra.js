@@ -53,14 +53,14 @@ async function crear_compra() {
     }
 
     // Obtener usuario
-    let user = JSON.parse(sessionStorage.getItem("result"));
-    let usuario_id = user.resultado[0];
+    // let user = JSON.parse(sessionStorage.getItem("result"));
+    // let usuario_id = user.resultado[0];
 
     // Modelo para enviar al backend
     let model = {
         accion: 0,
         productos: productosSeleccionados,
-        usuario_id: usuario_id
+        // usuario_id: usuario_id
     };
 
     let respuesta = await server_compra(model);

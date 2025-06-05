@@ -93,10 +93,10 @@ function capturar_orden($valores)
     $client = new \PayPalCheckoutSdk\Core\PayPalHttpClient($environment);
 
     $ordenId = $valores->ordenId;
-    $usuario_id = isset($valores->usuario_id) ? $valores->usuario_id : null;
+    /* $usuario_id = isset($valores->usuario_id) ? $valores->usuario_id : null;
     if (!$usuario_id) {
         return ['error' => 'Usuario ID no proporcionado'];
-    }
+    } */
     $request = new \PayPalCheckoutSdk\Orders\OrdersCaptureRequest($ordenId);
     $request->prefer('return=representation');
 
@@ -111,10 +111,10 @@ function capturar_orden($valores)
             $moneda = $result->purchase_units[0]->amount->currency_code;
             //$usuario_id = $result->order_id; // Asegúrate de que este campo sea correcto
             $fecha = date('Y-m-d H:i:s');
-            $producto_id = isset($valores->productos[0]) ? $valores->productos[0] : null;
+            // $producto_id = isset($valores->productos[0]) ? $valores->productos[0] : null;
 
-            $stmt = $con->prepare("INSERT INTO orden (paypal_id, estatus, monto, moneda, usuario_id, fecha, producto_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssdsisi", $paypal_id, $status, $monto, $moneda, $usuario_id, $fecha, $producto_id);
+            $stmt = $con->prepare("INSERT INTO orden (paypal_id, estatus, monto, moneda, fecha) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssdss", $paypal_id, $status, $monto, $moneda, $fecha);
             $stmt->execute();
             $stmt->close();
         }
