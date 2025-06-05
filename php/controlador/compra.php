@@ -28,7 +28,7 @@ function crear_compra($valores)
         $producto_id = $producto->id;
         $precio = $producto->precio;
         $stmt->bind_param("sii", $fecha, $producto_id, $precio);
-        if (!$stmt->execxute()) {
+        if (!$stmt->execute()) {
             $todo_ok = false;
             break;
         }

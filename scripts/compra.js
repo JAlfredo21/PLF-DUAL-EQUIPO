@@ -17,6 +17,25 @@ function server_compra(model){
     });
 }
 
+function server_esp32(model){
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "php/controlador/esp32.php",
+            type: "POST",
+            data: {
+                trama: JSON.stringify(model)
+            },
+            success: function(response) {
+                try {
+                    resolve(JSON.parse(response));
+                } catch (error) {
+                    reject(error);
+                }
+            },
+        });
+    });
+}
+
 async function crear_compra() {
     // Obtener productos seleccionados
     let productosSeleccionados = [];
@@ -45,6 +64,19 @@ async function crear_compra() {
     if (respuesta.resultado && respuesta.resultado.success) {
         alert("¡Compra realizada con éxito!");
         $('input[name="producto_id[]"]').prop('checked', false);
+
+        // Aquí enviamos la compra al ESP32
+        let respuestaESP32 = await server_esp32({
+            accion: 2,
+            productos: productosSeleccionados
+        });
+
+        if(respuestaESP32.resultado) {
+            alert("ESP32 respondió");
+        } else {
+            alert("No se pudo enviar la compra al ESP32");
+        }
+
     } else {
         alert("Ocurrió un error al realizar la compra.");
     }

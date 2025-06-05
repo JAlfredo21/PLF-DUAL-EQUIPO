@@ -8,6 +8,8 @@ if ($clientejson->accion == 0) {
     $respuesta_servidor->resultado = insertar_compra($clientejson);
 } elseif ($clientejson->accion == 1) {
     $respuesta_servidor->resultado = actualizar_datos($clientejson);
+} elseif ($clientejson->accion == 2) {
+    $respuesta_servidor->resultado = enviar_compra($clientejson);
 }
 
 print(json_encode($respuesta_servidor)); //!si lo quitas truena la app!!! (Básicamente returna un json del resultado de la consulta y si lo quitas truena)
@@ -63,4 +65,38 @@ function actualizar_datos()
 
     curl_close($ch);
     return $resultado;
+}
+
+function enviar_compra() {
+    include("../conexion.php");
+
+    $productos = $valores->productos ?? [];
+
+    $jsonData = json_encode($productos, JSON_UNESCAPED_UNICODE);
+
+    // IP y endpoint real del ESP32
+    $url = 'http://192.168.1.100/compra'; // Cambiar según configuración del ESP32
+
+    $ch = curl_init($url);
+
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'Content-Length: ' . strlen($jsonData)
+    ));
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+
+    $response = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        error_log("❌ Error al enviar compra al ESP32: " . curl_error($ch));
+        $resultado = "Error al contactar al ESP32";
+    } else {
+        error_log("✅ Respuesta del ESP32: " . $response);
+        $resultado = "Compra enviada correctamente al ESP32";
+    }
+
+    curl_close($ch);
+    return $resultado;    
 }

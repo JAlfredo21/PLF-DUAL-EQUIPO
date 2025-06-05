@@ -39,6 +39,25 @@ function server_paypal(model) {
 
 }
 
+function server_esp32(model) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: "POST",
+            url: "php/controlador/esp32.php",
+            data: {
+                trama: JSON.stringify(model)
+            },
+            success: function (response) {
+                try {
+                    resolve(JSON.parse(response))
+                } catch (error) {
+                    reject(error)
+                }
+            }
+        })
+    })
+
+}
 
 async function consultar_producto() {
     let respuesta = await server_vista_cliente({ accion: 0 });
@@ -87,12 +106,12 @@ async function capturar_orden(ordenId, productos = null) {
     //console.log(respuesta);
 }
 
-function checkInternetConnection() {
+/* function checkInternetConnection() {
     return navigator.onLine;
-}
+} */
 
 // Función para verificar la conexión con el ESP32
-function checkEsp32Connection() {
+/* function checkEsp32Connection() {
     return new Promise((resolve, reject) => {
         $.ajax({
             url: "http://IP_DEL_ESP32/tu_endpoint",  // URL del endpoint del ESP32
@@ -108,10 +127,10 @@ function checkEsp32Connection() {
             }
         });
     });
-}
+} */
 
 // Función para verificar la conexión completa (Internet y ESP32)
-async function verificarConexionCompleta() {
+/* async function verificarConexionCompleta() {
     // Verificamos la conexión a Internet
     if (!checkInternetConnection()) {
         $('#mjs-conexion').text("No tienes conexión a Internet.").show().css("color", "brown");
@@ -131,16 +150,16 @@ async function verificarConexionCompleta() {
     $('#mjs-conexion').hide();  // Ocultamos el mensaje si está todo bien
     $('#btn-paypal').prop('disabled', false);  // Habilitar el botón de compra
     return true;
-}
+} */
 
 
 $(document).ready(function () {
     // Inicializaciones
     // solo_user();
-    verificarConexionCompleta();
+    // verificarConexionCompleta();
     consultar_producto();
 
-    window.addEventListener('online', async function() {
+    /* window.addEventListener('online', async function() {
         $('#mjs-conexion').text("Conexión restaurada.").show().css("color", "green");
         await verificarConexionCompleta();  // Verificar de nuevo la conexión
     });
@@ -148,20 +167,20 @@ $(document).ready(function () {
     window.addEventListener('offline', function() {
         $('#mjs-conexion').text("Has perdido la conexión a Internet.").show().css("color", "brown");
         $('#btn-paypal').prop('disabled', true);  // Deshabilitar el botón
-    });
+    }); */
 
     // También chequeamos cada 30 segundos la conexión al ESP32 sin recargar la página
-    setInterval(async function() {
+    /* setInterval(async function() {
         await verificarConexionCompleta();  // Verificar cada 30 segundos
-    }, 30000);  // 30 segundos
+    }, 30000);  // 30 segundos */
 
     // Manejo del botón Comprar con PayPal
     $('#btn-paypal').on('click', async function () {
         //console.log("Botón de PayPal clickeado");
-        let conexionOk = await verificarConexionCompleta();  // Verificar conexión antes de proceder
+        /* let conexionOk = await verificarConexionCompleta();  // Verificar conexión antes de proceder
         if (!conexionOk) {
             return;  // Si no hay conexión, no procedemos
-        }
+        } */
 
         // Obtener productos seleccionados
         let productosSeleccionados = [];
@@ -194,6 +213,15 @@ $(document).ready(async function () {
         // console.log("Resultado de capturar_orden:", resultado);
         if (resultado && resultado.status === "COMPLETED") {
             alert("¡Pago realizado y orden capturada con éxito!");
+            // Enviar productos comprados al ESP32
+            let productos = JSON.parse(sessionStorage.getItem("productos_seleccionados")) || [];
+            if(productos.length > 0){
+                let respuestaESP32 = await server_esp32({
+                    accion: 2,
+                    productos: productos
+                });
+                console.log("ESP32 respondió:", respuestaESP32.resultado);
+            }
         } else {
             alert("No se pudo capturar la orden de PayPal");
         }
@@ -206,8 +234,3 @@ $(document).ready(function () {
         alert("El pago fue cancelado.");
     }
 });
-
-/* let user = JSON.parse(sessionStorage.getItem("result"));
-let user_name = user.resultado[1];
-
-$("#title").text("Bienvenido "+user_name) */
