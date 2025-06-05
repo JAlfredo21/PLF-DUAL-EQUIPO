@@ -1,4 +1,4 @@
-function server_compra(model){
+function server_compra(model) {
     return new Promise((resolve, reject) => {
         $.ajax({
             url: "php/controlador/compra.php",
@@ -6,7 +6,7 @@ function server_compra(model){
             data: {
                 trama: JSON.stringify(model)
             },
-            success: function(response) {
+            success: function (response) {
                 try {
                     resolve(JSON.parse(response));
                 } catch (error) {
@@ -17,7 +17,7 @@ function server_compra(model){
     });
 }
 
-function server_esp32(model){
+function server_esp32(model) {
     return new Promise((resolve, reject) => {
         $.ajax({
             url: "php/controlador/esp32.php",
@@ -25,7 +25,7 @@ function server_esp32(model){
             data: {
                 trama: JSON.stringify(model)
             },
-            success: function(response) {
+            success: function (response) {
                 try {
                     resolve(JSON.parse(response));
                 } catch (error) {
@@ -37,10 +37,14 @@ function server_esp32(model){
 }
 
 async function crear_compra() {
+    console.log("Botón comprar clickeado");
     // Obtener productos seleccionados
     let productosSeleccionados = [];
     $('input[name="producto_id[]"]:checked').each(function () {
-        productosSeleccionados.push($(this).val());
+        productosSeleccionados.push({
+            id: parseInt($(this).val()),
+            precio: parseFloat($(this).data('precio'))
+        });
     });
 
     if (productosSeleccionados.length === 0) {
@@ -71,7 +75,7 @@ async function crear_compra() {
             productos: productosSeleccionados
         });
 
-        if(respuestaESP32.resultado) {
+        if (respuestaESP32.resultado) {
             alert("ESP32 respondió");
         } else {
             alert("No se pudo enviar la compra al ESP32");

@@ -1,7 +1,7 @@
 <?php
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 header('Content-Type: text/html; charset=UTF-8');    /* Especificamos que se utulizara html con utf8 */
 date_default_timezone_set('America/Mexico_City');    /* Especificamos la zona horaria */
 
@@ -26,7 +26,23 @@ function crear_compra($valores)
     $todo_ok = true;
     foreach ($productos as $producto) {
         $producto_id = $producto->id;
-        $precio = $producto->precio;
+        $query = "SELECT precio FROM producto WHERE id = ?";
+        $stmtPrecio = $con->prepare($query);
+        $stmtPrecio->bind_param("i", $producto_id);
+        $stmtPrecio->execute();
+        $result = $stmtPrecio->get_result();
+        if ($row = $result->fetch_assoc()) {
+            $precio = $row['precio'];
+        } else {
+            $precio = null;  // O asigna 0 o maneja error
+        }
+        $stmtPrecio->close();
+
+        if ($precio === null) {
+            $todo_ok = false;
+            break;
+        }
+
         $stmt->bind_param("sii", $fecha, $producto_id, $precio);
         if (!$stmt->execute()) {
             $todo_ok = false;
@@ -41,4 +57,3 @@ function crear_compra($valores)
         return ['success' => false, 'message' => 'Error al registrar la compra'];
     }
 }
-?>
