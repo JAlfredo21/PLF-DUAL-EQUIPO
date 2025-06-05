@@ -39,6 +39,25 @@ function server_compra(model) {
     })
 }
 
+function server_esp32(model) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: "POST",
+            url: "php/controlador/esp32.php",
+            data: {
+                trama: JSON.stringify(model)
+            },
+            success: function (response) {
+                try {
+                    resolve(JSON.parse(response))
+                } catch (error) {
+                    reject(error)
+                }
+            }
+        })
+    })
+}
+
 async function consultar_datos() {
     let server = await server_vista({ accion: 0 });
     let datos = server.resultado;
@@ -60,7 +79,7 @@ async function consultar_datos() {
 
 async function actualizar_datos() {
     let productos = [];
-    for (let i = 1; i < 9; i++) {
+    for (let i = 1; i < 5; i++) {
         let id = document.querySelector(`input[name="id_${i}"]`).value;
         let nombre = document.querySelector(`input[name="nombre_${i}"]`).value;
         let precio = document.querySelector(`input[name="precio_${i}"]`).value;
@@ -78,6 +97,15 @@ async function actualizar_datos() {
 
     if (server.resultado) {
         alert("Datos enviados correctamente");
+
+        let respuesta = await server_esp32({ accion: 1})
+
+        if (respuesta.resultado) {
+            alert("ESP32 actualizado correctamente")
+        } else {
+            alert("Error al actualizar ESP32")
+        }
+
     } else {
         alert("Error al enviar los datos");
     }
