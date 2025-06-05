@@ -20,7 +20,7 @@ function insertar_compra($valores)
     include("../conexion.php");
     $registro = date("Y-m-d H:i:s");
 
-    $sql = "INSERT INTO pfl(fecha,producto_id,precio) VALUES ('$registro','$valores->id','$valores->precio');";
+    $sql = "INSERT INTO venta(fecha,producto_id,precio) VALUES ('$registro','$valores->id','$valores->precio');";
     mysqli_query($con, $sql);
 
     return "Registro completado";
