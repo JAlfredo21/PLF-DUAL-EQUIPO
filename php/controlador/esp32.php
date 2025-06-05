@@ -20,7 +20,7 @@ function insertar_compra($valores)
     include("../conexion.php");
     $registro = date("Y-m-d H:i:s");
 
-    $sql = "INSERT INTO pfl(fecha,producto_id,precio) VALUES ('$registro','$valores->id','$valores->precio');";
+    $sql = "INSERT INTO venta(fecha,producto_id,precio) VALUES ('$registro','$valores->id','$valores->precio');";
     mysqli_query($con, $sql);
 
     return "Registro completado";
@@ -40,7 +40,7 @@ function actualizar_datos()
 
     $jsonData = json_encode($array, JSON_UNESCAPED_UNICODE);
     // IP y ruta del ESP32
-    $url = 'http://192.168.1.100/datos'; // Cambia a la IP real del ESP32
+    $url = 'http://192.168.1.71/datos'; // Cambia a la IP real del ESP32
     // Enviamos los datos con cURL
     $ch = curl_init($url);
 
@@ -75,7 +75,7 @@ function enviar_compra() {
     $jsonData = json_encode($productos, JSON_UNESCAPED_UNICODE);
 
     // IP y endpoint real del ESP32
-    $url = 'http://192.168.1.100/compra'; // Cambiar según configuración del ESP32
+    $url = 'http://192.168.1.71/compra'; // Cambiar según configuración del ESP32
 
     $ch = curl_init($url);
 

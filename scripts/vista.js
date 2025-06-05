@@ -79,7 +79,7 @@ async function consultar_datos() {
 
 async function actualizar_datos() {
     let productos = [];
-    for (let i = 1; i < 5; i++) {
+    for (let i = 1; i < 6; i++) {
         let id = document.querySelector(`input[name="id_${i}"]`).value;
         let nombre = document.querySelector(`input[name="nombre_${i}"]`).value;
         let precio = document.querySelector(`input[name="precio_${i}"]`).value;
