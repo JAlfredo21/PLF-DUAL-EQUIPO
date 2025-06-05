@@ -10,6 +10,8 @@ if ($clientejson->accion == 0) {
     $respuesta_servidor->resultado = actualizar_datos($clientejson);
 } elseif ($clientejson->accion == 2) {
     $respuesta_servidor->resultado = enviar_compra($clientejson);
+} elseif ($clientejson->accion == 3) {
+    $respuesta_servidor->resultado = insertar_csv($clientejson);
 }
 
 print(json_encode($respuesta_servidor)); //!si lo quitas truena la app!!! (Básicamente returna un json del resultado de la consulta y si lo quitas truena)
@@ -99,4 +101,20 @@ function enviar_compra() {
 
     curl_close($ch);
     return $resultado;    
+}
+
+function insertar_csv($valores){
+    include("../conexion.php");
+
+    for ($i=0; $i < count($valores->datos); $i++){
+        $registro = date("Y-m-d H:i:s");
+        $datos = $valores->datos[$i];
+        $sql = "INSERT INTO venta(fecha,producto_id,precio)
+        VALUES('$registro',
+               '$datos->id',
+               '$datos->precio');";
+        mysqli_query($con,$sql);
+    }
+
+    return "Registro completado";
 }
